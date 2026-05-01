@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phase 2 Market Scan — Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Phase 2 Market Scan</h1>
+    <p class="lede">CBT-based Digital Interventions</p>
+    <div class="hero-meta">
+      <span>Methodology: TDI v1.0 (April 2026)</span>
+      <span>Scan window: Q1–Q2 2026</span>
+      <span>28 in-scope products</span>
+      <span>5 excluded with reason</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="active" data-tab="dashboard">Dashboard</button>
+    <button data-tab="catalog">Product catalog</button>
+    <button><a href="methodology.html" style="color:inherit;text-decoration:none;">Methodology &rarr;</a></button>
+    <div class="spacer"></div>
+    <span class="meta" id="result-count"></span>
+  </div>
+</nav>
+
+<main class="shell">
+
+  <section id="tab-dashboard">
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Products in scan</div><div class="value" id="kpi-total">—</div><div class="sub">In-scope per Section 1.1</div></div>
+      <div class="kpi"><div class="label">Core CBT</div><div class="value" id="kpi-core">—</div><div class="sub">CBT is the active framework</div></div>
+      <div class="kpi"><div class="label">Survivorship-fit</div><div class="value" id="kpi-surv">—</div><div class="sub">Cancer-specific design transfer</div></div>
+      <div class="kpi"><div class="label">Adjacent AYA</div><div class="value" id="kpi-aya">—</div><div class="sub">Paediatric chronic-illness audience</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card"><h3>Symptom coverage (count of products that cover each symptom)</h3><div class="chart-wrap"><canvas id="chart-symptoms"></canvas></div></div>
+      <div class="chart-card"><h3>Country of origin</h3><div class="chart-wrap"><canvas id="chart-countries"></canvas></div></div>
+      <div class="chart-card"><h3>Delivery model</h3><div class="chart-wrap"><canvas id="chart-delivery"></canvas></div></div>
+      <div class="chart-card"><h3>Population target</h3><div class="chart-wrap"><canvas id="chart-pop"></canvas></div></div>
+      <div class="chart-card"><h3>Degree of CBT involvement</h3><div class="chart-wrap"><canvas id="chart-cbt-degree"></canvas></div></div>
+      <div class="chart-card"><h3>Standardised measures used (PHQ-9, GAD-7, ISI, others)</h3><div class="chart-wrap"><canvas id="chart-measures"></canvas></div></div>
+    </div>
+
+    <div class="panel">
+      <h2>Excluded candidates</h2>
+      <p style="color:var(--ink-soft);margin-top:0">Conservative scoring per Section 5.3 — apps below were screened out at Section 1.2 inclusion gates and recorded for audit.</p>
+      <table class="scan" id="excluded-table">
+        <thead><tr><th>Candidate</th><th>Reason for exclusion</th></tr></thead>
+        <tbody>
+          <tr><td>Bloom (Spring Health)</td><td>Withdrawn from market — discontinued 23 Feb 2025 (Section 1.2 currency rule)</td></tr>
+          <tr><td>Calm Harm (stem4)</td><td>No CBT core (DBT only)</td></tr>
+          <tr><td>iBobbly (Black Dog Institute)</td><td>No CBT core (ACT/MBCT/DBT)</td></tr>
+          <tr><td>Pain Squad+ (SickKids)</td><td>Insufficient public CBT-core evidence under conservative-scoring rule</td></tr>
+          <tr><td>Woebot (Woebot Health)</td><td>Withdrawn from market — consumer app retired 30 Jun 2025; vendor pivoted to enterprise B2B</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <section id="tab-catalog" class="hidden">
+    <div class="panel">
+      <h2>Filter products</h2>
+      <div class="filter-row">
+        <div>
+          <label for="q">Search by name / vendor / population / evidence</label>
+          <input id="q" type="text" placeholder="e.g. anxiety, Stinson, PHQ-9, AYA, gamification…" />
+        </div>
+        <div>
+          <label for="country">Country</label>
+          <select id="country"><option value="">All</option></select>
+        </div>
+        <div>
+          <label for="symptom">Covers symptom</label>
+          <select id="symptom">
+            <option value="">Any</option>
+            <option value="s_anx">Anxiety</option>
+            <option value="s_dep">Depression</option>
+            <option value="s_pain">Pain</option>
+            <option value="s_fatigue">Fatigue</option>
+            <option value="s_sleep">Sleep disturbance</option>
+            <option value="s_cog">Cancer-related cognitive impairment</option>
+            <option value="s_isolation">Social isolation</option>
+            <option value="s_rumin">Rumination</option>
+            <option value="s_health_anx">Health anxiety</option>
+          </select>
+        </div>
+        <div>
+          <label for="delivery">Delivery model</label>
+          <select id="delivery">
+            <option value="">Any</option>
+            <option value="self_guided">Self-guided</option>
+            <option value="therapist_guided">Therapist-guided</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="ai_mediated">AI-mediated</option>
+          </select>
+        </div>
+        <div>
+          <label for="population">Population target</label>
+          <select id="population">
+            <option value="">Any</option>
+            <option value="ayaccs">AYA cancer survivors</option>
+            <option value="adjacent_aya">Adjacent AYA chronic illness</option>
+            <option value="general_adult">General adult mental health</option>
+          </select>
+        </div>
+        <div>
+          <label for="cbtDegree">CBT involvement</label>
+          <select id="cbtDegree">
+            <option value="">Any</option>
+            <option value="Core">Core</option>
+            <option value="Mixed">Mixed</option>
+            <option value="Loose">Loose</option>
+          </select>
+        </div>
+      </div>
+      <div class="chip-row" id="active-chips"></div>
+      <div class="view-toggle-row">
+        <span class="view-toggle-label">View:</span>
+        <button class="view-toggle active" data-view="cards">Cards (full evidence)</button>
+        <button class="view-toggle" data-view="table">Compact table</button>
+        <span class="view-toggle-hint">Cards show every evidence field inline · Click any card or row to open full detail</span>
+      </div>
+    </div>
+
+    <div id="cards-container" class="cards-grid"></div>
+
+    <div class="panel hidden" id="table-container" style="padding: 0;">
+      <div style="overflow:auto; max-height: calc(100vh - 220px);">
+        <table class="scan" id="products-table">
+          <thead>
+            <tr>
+              <th data-sort="id">ID</th>
+              <th data-sort="name">Product</th>
+              <th data-sort="vendor">Vendor</th>
+              <th data-sort="country">Country</th>
+              <th>Symptoms</th>
+              <th>Delivery</th>
+              <th>CBT degree</th>
+              <th>Population</th>
+            </tr>
+          </thead>
+          <tbody id="products-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-back" id="modal-back" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  <div>Phase 2 Market Scan Dashboard · Generated April 2026</div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

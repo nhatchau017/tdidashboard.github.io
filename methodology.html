@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TDI Phase 2 Market Scan — Methodology v1.0</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>TDI Market Scan Methodology v1.0</h1>
+    <p class="lede">Framework Application and Scan Methods — CBT-Based Digital Interventions for the Big Four Symptom Targets in AYA Childhood Cancer Survivorship.</p>
+    <div class="hero-meta">
+      <span>Phase 2: Product Definition</span>
+      <span>April 2026</span>
+      <span>Version 1.0 (Draft)</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button><a href="index.html" style="color:inherit;text-decoration:none;">&larr; Dashboard</a></button>
+    <button class="active">Methodology</button>
+    <div class="spacer"></div>
+    <span class="meta">Source: TDI_Market_Scan_Methodology_v1.0.docx</span>
+  </div>
+</nav>
+
+<main class="shell">
+
+  <div class="method-toc">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><strong>Part A — Evaluation Framework</strong>
+        <ol>
+          <li><a href="#s1">Scope and Eligibility Criteria</a>
+            <ol>
+              <li><a href="#s1-1">Inclusion criteria</a></li>
+              <li><a href="#s1-2">Exclusion criteria</a></li>
+              <li><a href="#s1-3">Scan categories</a></li>
+            </ol>
+          </li>
+          <li><a href="#s2">Theoretical Framework Foundation</a></li>
+          <li><a href="#s3">Classification and Strategic Fit</a></li>
+        </ol>
+      </li>
+      <li><strong>Part B — Market Scan Methods</strong>
+        <ol>
+          <li><a href="#s4">Search and Identification Strategy</a></li>
+          <li><a href="#s5">AI-Assisted Data Collection</a></li>
+          <li><a href="#s6">Limitations</a></li>
+          <li><a href="#s7">Outputs and Deliverables</a></li>
+          <li><a href="#s8">References</a></li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+
+  <article class="panel method-body">
+
+    <p><em>Transdiagnostic Digital Intervention (TDI) is a project that seeks to address the co-occurring symptoms among adolescent and young adult (AYA; 15–24 years) childhood cancer survivors (CCS) using Cognitive Behavioural Therapy (CBT).</em></p>
+    <p><em>This methodology governs the Phase 2 market scan of the TDI project. The scan identifies and characterises CBT-based digital interventions for symptoms that co-occur in survivors of childhood cancer, including but are not limited to anxiety, depression, pain, fatigue. Scan findings inform downstream Phase 3, 4, and 5 deliverables, including gap analysis, persona-aligned feature synthesis, low-fidelity design decisions, and co-design facilitation materials. Apps are not procured through this scan; the scan produces a design-reference corpus.</em></p>
+    <p><em>Scope is defined at the level of the intervention modality (CBT-based digital apps) rather than at the level of the intended user population. Apps designed for AYA CCS are captured as a named category within the scan, alongside apps designed for other populations whose design choices are transferable. Technologies in and out of scope are defined below to ensure consistent and defensible inclusion decisions. The TDI Theoretical Framework v1.0 is the authoritative source for the theoretical constructs this methodology references, not restated, in Section 2.0.</em></p>
+
+    <h2 id="s1">1.0 Scope and Eligibility Criteria</h2>
+
+    <h3 id="s1-1">1.1 Inclusion Criteria</h3>
+    <ul>
+      <li>Mobile-delivered digital intervention. Includes standalone apps and SDKs deployable as apps. <strong>AND/OR</strong></li>
+      <li>Web-delivered digital intervention. Includes standalone websites or hybrid web-and-app products.</li>
+      <li>Delivers CBT content. Presence of at least one core component of CBT protocol: psychoeducation, cognitive reappraisal, behavioural activation, relaxation strategies, problem-solving skills.</li>
+      <li>Transdiagnostic intervention covering ≥2 symptoms common to AYA CCS (anxiety, depression, pain, fatigue, etc.). Accessible at the time of scan via (a) public Apple App Store / Google Play, (b) institutional / clinical deployment with public documentation, or (c) active research trial with a named deployment pathway.</li>
+    </ul>
+
+    <h3 id="s1-2">1.2 Exclusion Criteria</h3>
+    <ul>
+      <li>Delivers no CBT content (mindfulness/ACT/meditation-only).</li>
+      <li>Clinician-facing tools only with no user-facing component.</li>
+      <li>Withdrawn from market or abandoned (no updates within last 24 months AND no current download/deployment pathway).</li>
+      <li>Requires external hardware (wearables, biosensors) as the primary delivery or measurement mechanism.</li>
+    </ul>
+
+    <h3 id="s1-3">1.3 Scan Categories</h3>
+    <p>Within-scope apps are tagged across five category axes (extraction facets, not scope filters): mechanisms, symptom coverage, delivery model, design features, population target. Full operationalisation lives in the companion Extraction Schema document.</p>
+
+    <h4>1.3.1 Mechanisms</h4>
+    <ul>
+      <li>CBT principles used: cognitive restructuring, behavioural activation, graded exposure, problem-solving, relaxation, psychoeducation, self-monitoring, relapse prevention, guided discovery.</li>
+      <li>Other mental wellness tooling: mindfulness, ACT, DBT, MI, positive psychology, peer support, expressive writing.</li>
+    </ul>
+
+    <h4>1.3.2 Symptom Coverage</h4>
+    <p>Open-coded list including anxiety, depression, pain, fatigue, sleep disturbance, cancer-related cognitive impairment, social isolation, rumination, health anxiety. Original product vocabulary retained.</p>
+
+    <h4>1.3.3 Delivery Model</h4>
+    <ul>
+      <li>Self-guided</li>
+      <li>Therapist-guided</li>
+      <li>Hybrid (blended)</li>
+      <li>AI-mediated</li>
+    </ul>
+
+    <h4>1.3.4 Design Features</h4>
+    <ul>
+      <li>Gamification elements</li>
+      <li>Just-in-time adaptive interventions for symptom flares</li>
+      <li>Personalised symptom-cluster identification</li>
+      <li>CBT modules tailored to cancer-specific concerns</li>
+      <li>CBT modules for chronic pain</li>
+      <li>Health anxiety coping tools</li>
+      <li>Guided healthcare transition content</li>
+      <li>Modules on disclosing cancer history; health/symptom/medication tracking calibrated to late effects</li>
+      <li>Moderated peer support; multimedia content; story-mapping (diary/journal); glossaries</li>
+      <li>Customisation to CCS or individual diagnoses</li>
+    </ul>
+
+    <h4>1.3.5 Population Target</h4>
+    <p>Stated user population captured as expressed by the product (e.g., "AYA cancer survivors", "adolescents with chronic pain", "general adult mental health"). Age ranges should fall between 15 and 24 for primary AYA targeting.</p>
+
+    <h2 id="s2">2.0 Theoretical Framework Foundation</h2>
+    <p>Eight evaluation dimensions derived 1-to-1 from the TDI Theoretical Framework v1.0's seven layers, with an eighth (Survivorship Contextual Fit) added for population-specific design transfer.</p>
+
+    <h3>2.1 User-Centered Design (UCD)</h3>
+    <p><em>McCurdie et al. (2012); Birnie et al. (2019).</em> Methodological spine — Dimension 1.</p>
+    <h3>2.2 Transdiagnostic CBT</h3>
+    <p><em>Schaeuffele et al. (2021); Barlow et al. (2017).</em> Therapeutic foundation — Dimension 2.</p>
+    <h3>2.3 Symptom Science and Symptom Cluster Framework</h3>
+    <p><em>Brant, Beck, &amp; Miaskowski (2010).</em> Holistic-health lens — Dimension 3.</p>
+    <h3>2.4 Self-Determination Theory (SDT)</h3>
+    <p><em>Deci &amp; Ryan (1985); Ryan &amp; Deci (2000).</em> Engagement layer — Dimension 4.</p>
+    <h3>2.5 Persuasive Systems Design (PSD)</h3>
+    <p><em>Oinas-Kukkonen &amp; Harjumaa (2009).</em> Feature-coding framework — Dimension 5.</p>
+    <h3>2.6 WCAG 2.2 Accessibility</h3>
+    <p><em>W3C (2008; 2023).</em> Accessibility floor — Dimension 6.</p>
+    <h3>2.7 Equity</h3>
+    <p><em>Richardson et al. (2022); Crawford &amp; Serhal (2020).</em> Equity-deserving-group accommodation — Dimension 7.</p>
+    <h3>2.8 Survivorship Contextual Fit</h3>
+    <p>Project-specific — captures CBT-tailored cancer content, late-effect literacy, customisation to CCS — Dimension 8.</p>
+
+    <h3>3.1 Dimension Summary and Framework Traceability</h3>
+    <table>
+      <thead><tr><th>Evaluation Dimension</th><th>Primary Framework</th><th>Framework Element</th><th>What It Assesses</th></tr></thead>
+      <tbody>
+        <tr><td>1. UCD &amp; Usability for AYA</td><td>UCD</td><td>Iterative user-centered process; paediatric/AYA usability evidence</td><td>User involvement; AYA-appropriate UI; published usability evidence</td></tr>
+        <tr><td>2. Transdiagnostic CBT Fidelity</td><td>Transdiagnostic CBT</td><td>Core CBT components; shared-mechanism logic across the Big Four</td><td>Presence of CBT components; transdiagnostic coverage; shared-mechanism framing</td></tr>
+        <tr><td>3. Symptom Science &amp; Cluster Coverage</td><td>Symptom Science</td><td>Cluster-aware design; correlational and temporal symptom relationships</td><td>Multi-symptom tracking; cluster visualisation; cluster-aware targeting</td></tr>
+        <tr><td>4. SDT Alignment</td><td>SDT</td><td>Autonomy, competence, relatedness</td><td>Autonomy-supportive defaults; competence scaffolding; relatedness design</td></tr>
+        <tr><td>5. PSD Engagement Features</td><td>PSD</td><td>Four categories; 28 principles</td><td>Breadth across PSD categories; depth of implementation; persona alignment</td></tr>
+        <tr><td>6. WCAG 2.2 Accessibility</td><td>WCAG 2.2</td><td>Level AA minimum; AAA criteria for cognitive accessibility</td><td>Stated conformance; evidence; cognitive-accessibility features</td></tr>
+        <tr><td>7. Equity</td><td>Intersectional digital health equity</td><td>Equity-deserving-group accommodations beyond WCAG</td><td>Language, cultural safety, socio-economic access, Indigenous/gender considerations</td></tr>
+        <tr><td>8. Survivorship Contextual Fit</td><td>Project-specific framework</td><td>CCS-adjacent design; late-effect literacy; survivorship content</td><td>Density and depth of survivorship-adjacent content and customisation</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="s3">4.0 Classification and Strategic Fit</h2>
+    <h3>3.2 TDI Strategic Fit Rating</h3>
+    <table>
+      <thead><tr><th>Rating</th><th>Criteria</th></tr></thead>
+      <tbody>
+        <tr><td>High</td><td>Population includes AYA CCS, AYA cancer, or paediatric cancer; survivorship-specific content; ages 15-24; design directly transferable to TDI personas.</td></tr>
+        <tr><td>Medium</td><td>Adjacent AYA or paediatric chronic-illness population (non-cancer); transferable with adaptation; strong, generalisable symptom coverage.</td></tr>
+        <tr><td>Low</td><td>Adult or general mental health; substantial adaptation needed; transferable elements isolated.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="s4">4.0 Search and Identification Strategy</h2>
+    <h3>4.1 Source Categories and Search Layers</h3>
+    <table>
+      <thead><tr><th>Search Layer</th><th>Sources</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>1. Commercial &amp; Curated App Libraries</td><td>App Store; Google Play; ORCHA; OneMind PsyberGuide; NHS Apps Library; vendor sites; market reports</td><td>Identify CBT apps targeting co-occurring symptoms</td></tr>
+        <tr><td>2. Regulatory &amp; Medical Device Databases</td><td>Health Canada MDALL; FDA 510(k)/De Novo/MAUDE; EUDAMED; ARTG</td><td>Verify regulatory status; cleared SaMD; incidents/withdrawals</td></tr>
+        <tr><td>3. Academic Literature (AI-executed)</td><td>PubMed/PMC; OpenAlex; Semantic Scholar; Cochrane; bioRxiv/medRxiv; PROSPERO</td><td>Validation studies, efficacy trials, systematic reviews</td></tr>
+        <tr><td>4. Academic Literature (Human-executed)</td><td>Scopus; Embase; PsycInfo; IEEE Xplore; CINAHL; Google Scholar (targeted)</td><td>Paywalled or subscription-indexed literature</td></tr>
+        <tr><td>5. HTA &amp; Evidence-Synthesis Bodies</td><td>CADTH/CDA-AMC; NICE/ORCHA; INAHTA; EUnetHTA</td><td>Existing assessments &amp; evidence syntheses</td></tr>
+        <tr><td>6. Grey Literature &amp; Industry Intelligence</td><td>Market reports; conferences (APA, IACAPAP, SBM, ISPOR, HIMSS); Crunchbase; LinkedIn; GitHub; accelerators (MaRS, CDL, OCI)</td><td>Newer entrants, pre-commercial products, funding signals</td></tr>
+        <tr><td>7. Expert Consultation</td><td>Clinical leads; CDTx team; Phase-1 participants; networks (C17, POGO, AYA CAN, CPA Digital Health Section)</td><td>Surface apps not found through structured searches</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.2 Search Terms</h3>
+    <p>Search terms organised by Category 1 (Mechanisms) and Category 2 (Symptom coverage) — variants of "cognitive behavioural therapy", "transdiagnostic", "behavioural activation", "exposure", "mHealth" paired with symptom terms (anxiety, depression, chronic pain, cancer-related fatigue, sleep, rumination, worry, cognitive late effects, health anxiety) and population terms (AYA, adolescent, young adult, cancer survivor, childhood cancer, paediatric oncology). Full lexicon maintained in the extraction workbook.</p>
+
+    <h2 id="s5">5.0 AI-Assisted Data Collection</h2>
+    <h3>5.1 Approach and Rationale</h3>
+    <p>An AI system (Anthropic Claude) performs app identification, data extraction across the five scan categories, and preliminary scoring across the eight dimensions. Recognised by Cochrane / Campbell / JBI / CEE joint position statement (Flemyng et al., 2025) when accompanied by human validation; the scan's governance model meets CDA-AMC (2024) AI-evaluation criteria.</p>
+    <h3>5.2 Search Protocol</h3>
+    <p>AI executes Mechanism × Symptom search combinations defined in the extraction workbook. Each app is profiled using the standardised Extraction Schema. When data are unavailable, fields are marked "Unknown" rather than imputed and flagged for human review per Section 5.3.</p>
+    <h3>5.3 Validation and Quality Assurance</h3>
+    <ul>
+      <li>Source verification — every data point includes a citation (URL + access date); reviewers verify ≥3 random data points per app across different field domains.</li>
+      <li>Scoring review — all AI-generated scores reviewed by ≥1 human reviewer; adjustments documented.</li>
+      <li>Gap follow-up — fields marked "Unknown" flagged for vendor engagement (especially for apps tentatively classified as Strong Design Reference).</li>
+      <li>Manual scoring of NPD fields — for critical fields (e.g., transdiagnostic CBT fidelity), AI flags rather than infers; human reviewers apply manual scoring.</li>
+      <li>Conservative scoring — absence of public evidence is treated as informative.</li>
+      <li>Source conflict resolution — regulatory database &gt; vendor claim; peer-reviewed publication &gt; press release. Discrepancy logged in Notes field.</li>
+      <li>Reviewer identity — default Research Associate; second reviewers from CDTx team or clinical leads.</li>
+    </ul>
+
+    <h2 id="s6">6.0 Limitations</h2>
+    <h3>6.1 General</h3>
+    <ul>
+      <li>Language of search — AI searches in English; non-English-marketed apps may be under-represented.</li>
+      <li>Point-in-time — captures Q1-Q2 2026 landscape; re-runs planned before Phase 3.</li>
+      <li>Information asymmetry — vendors may not publicly disclose CBT protocol details, evidence, privacy architecture.</li>
+      <li>Publication bias — clinical evidence relies on published literature.</li>
+      <li>Protocol-specific benchmarks deferred to Phase 3/4.</li>
+    </ul>
+    <h3>6.2 AI-Specific</h3>
+    <ul>
+      <li>Web-accessible only — proprietary data, unpublished studies, confidential regulatory submissions not captured.</li>
+      <li>Temporal web content — date-stamped in extraction record.</li>
+      <li>AI interpretation — borderline cases mitigated by Section 5.3 review.</li>
+      <li>Model knowledge cutoff — supplemented by real-time web search; flagged where AI profile appears thin.</li>
+      <li>Search coverage — very new entrants, pre-commercial prototypes, non-English-marketed apps may be missed; supplemented by Layer 7 expert consultation.</li>
+    </ul>
+
+    <h2 id="s7">7.0 Outputs and Deliverables</h2>
+    <ul>
+      <li><strong>Market Scan Workbook</strong> (Excel) — coded app profiles by mechanism and symptom; extraction fields per schema; dimension scores with rationale; readiness classification; TDI Strategic Fit; source URLs and access dates. Now includes <strong>Evidence sheet</strong> with usage/adoption, where CBT shows up, CBT tools/concepts, content/activities, assessments, degree of CBT, elevator pitch, App Store/Google Play URLs.</li>
+      <li><strong>Market Scan Summary Report</strong> — narrative synthesis of findings, distribution across readiness tiers, key design patterns per dimension, gap analysis, Phase-3/4 shortlist.</li>
+      <li><strong>Interactive Dashboard</strong> — visualisation layer rendering the coded dataset along multiple slice axes (this site).</li>
+      <li><strong>Source Archive</strong> — dated archive of source materials per app for audit and reproducibility.</li>
+    </ul>
+    <h3>7.1 Shortlisting</h3>
+    <table>
+      <thead><tr><th>Step</th><th>Filter</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Classification gate</td><td>Strong / Partial Design Reference only</td></tr>
+        <tr><td>2</td><td>TDI Strategic Fit</td><td>High / Medium prioritised</td></tr>
+        <tr><td>3</td><td>Gap coverage</td><td>Balanced across delivery models, CBT mechanism mixes, population targets</td></tr>
+        <tr><td>4</td><td>Team review</td><td>Final shortlist confirmed by Dr. Pham &amp; Principal Applicant before clinical-lead review</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="s8">8.0 References (APA 7)</h2>
+    <p>Sources marked † are drawn directly from the TDI Theoretical Framework v1.0 reference list. References should be spot-checked against original sources before external circulation.</p>
+    <div class="ref-list">
+      <p>† Barlow, D. H., Farchione, T. J., Sauer-Zavala, S., Murray Latin, H., Ellard, K. K., Bullis, J. R., Bentley, K. H., Boettcher, H. T., &amp; Cassiello-Robbins, C. (2017). <em>Unified protocol for transdiagnostic treatment of emotional disorders: Therapist guide</em> (2nd ed.). Oxford University Press.</p>
+      <p>† Birnie, K. A., Campbell, F., Nguyen, C., Lalloo, C., Tsimicalis, A., Matava, C., Cafazzo, J., &amp; Stinson, J. (2019). iCanCope PostOp: User-centered design of a smartphone-based app for self-management of postoperative pain in children and adolescents. <em>JMIR Formative Research</em>, 3(2), e12028.</p>
+      <p>Brant, J. M., Beck, S., &amp; Miaskowski, C. (2010). Building dynamic models and theories to advance the science of symptom management research. <em>Journal of Advanced Nursing</em>, 66, 228–240.</p>
+      <p>CDA-AMC. (2024). Development of an evaluation instrument on artificial intelligence search tools for evidence synthesis. <em>Canadian Journal of Health Technologies</em>, 4(10), 1–19.</p>
+      <p>Crawford, A., &amp; Serhal, E. (2020). Digital health equity and COVID-19. <em>J Med Internet Res</em>, 22(6), e19361.</p>
+      <p>† Deci, E. L., &amp; Ryan, R. M. (1985). <em>Intrinsic motivation and self-determination in human behavior</em>. Plenum Press.</p>
+      <p>Flemyng, E., Thomas, J., Grant, S., Noel-Storr, A., Mavergames, C., Konet, A., Soilemezi, D., Shemilt, I., Elliott, J., Higgins, J. P. T., on behalf of Cochrane / Campbell / JBI / CEE. (2025). Position statement on AI use in evidence synthesis. <em>Campbell Systematic Reviews</em>, 21, e70074.</p>
+      <p>Health Canada. (2023). <em>Guidance document: Software as a medical device (SaMD) — Definition and classification</em>.</p>
+      <p>† McCurdie, T., Taneva, S., Casselman, M., Yeung, M., McDaniel, C., Ho, W., &amp; Cafazzo, J. (2012). mHealth consumer apps: The case for user-centered design. <em>Biomedical Instrumentation &amp; Technology</em>, 46(S2), 49–56.</p>
+      <p>† Oinas-Kukkonen, H., &amp; Harjumaa, M. (2009). Persuasive systems design. <em>Communications of the AIS</em>, 24(1), Article 28.</p>
+      <p>† Ryan, R. M., &amp; Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation. <em>American Psychologist</em>, 55(1), 68–78.</p>
+      <p>Richardson, S., Lawrence, K., Schoenthaler, A. M., &amp; Mann, D. (2022). A framework for digital health equity. <em>NPJ Digital Medicine</em>, 5(1), 119.</p>
+      <p>† Schaeuffele, C., Schulz, A., Knaevelsrud, C., Renneberg, B., &amp; Boettcher, J. (2021). CBT at the crossroads: The rise of transdiagnostic treatments. <em>International Journal of Cognitive Therapy</em>, 14, 86–113.</p>
+      <p>Tutelman, P. R., et al. (2026). <em>TDI Theoretical Framework v1.0</em> [Internal project document].</p>
+      <p>† World Wide Web Consortium. (2008). <em>WCAG 2.0</em>. (2023). <em>WCAG 2.2</em>.</p>
+    </div>
+    <p style="margin-top:24px;color:var(--ink-soft);font-size:13px;"><strong>Note for verification:</strong> Symptom Science / Symptom Cluster framework primary citation (Miaskowski et al.; NINR Symptom Science Model) and Schulte et al. paediatric oncology symptom-cluster work require direct verification against original sources before inclusion in the final reference list.</p>
+
+  </article>
+
+</main>
+
+<footer>
+  <div>TDI Phase 2 Market Scan · Methodology v1.0 (Draft, April 2026) · Source-of-truth: TDI_Market_Scan_Methodology_v1.0.docx</div>
+</footer>
+
+</body>
+</html>
