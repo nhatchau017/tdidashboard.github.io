@@ -66,8 +66,8 @@
     "cbt_degree": "Core \u2014 CBT is the primary therapeutic frame. Mindfulness and positive-psychology content are layered alongside but the active ingredient (per RCT evidence) is the CBT toolset."
   },
   {
-    "id": "TDI-003",
-    "name": "SilverCloud (Space from Anxiety & Depression / Unified Protocol)",
+    "id": "TDI-002",
+    "name": "SilverCloud",
     "vendor": "SilverCloud Health (Amwell)",
     "platform": "Web + Mobile",
     "url": "https://www.silvercloudhealth.com/",
@@ -132,7 +132,7 @@
     "cbt_degree": "Core \u2014 pure structured iCBT, including the Unified-Protocol transdiagnostic variant developed with Barlow et al."
   },
   {
-    "id": "TDI-004",
+    "id": "TDI-003",
     "name": "Sanvello",
     "vendor": "Sanvello Health (UnitedHealth Group)",
     "platform": "Mobile + Web",
@@ -198,7 +198,7 @@
     "cbt_degree": "Mixed (CBT is primary, mindfulness is co-equal) \u2014 CBT is explicitly the principal framework but the app is openly hybrid with mindfulness, meditation, and peer support."
   },
   {
-    "id": "TDI-005",
+    "id": "TDI-004",
     "name": "moodgym",
     "vendor": "e-hub Health (Australian National University spin-out)",
     "platform": "Web",
@@ -264,7 +264,7 @@
     "cbt_degree": "Core \u2014 pure CBT skills training; no mindfulness or other modality."
   },
   {
-    "id": "TDI-006",
+    "id": "TDI-005",
     "name": "THIS WAY UP \u2014 Mixed Depression & Anxiety (Transdiagnostic Course)",
     "vendor": "St Vincent's Hospital Sydney / UNSW",
     "platform": "Web",
@@ -330,7 +330,7 @@
     "cbt_degree": "Core \u2014 strict structured iCBT; family-level transdiagnostic framework explicitly used in Mixed course."
   },
   {
-    "id": "TDI-007",
+    "id": "TDI-006",
     "name": "MindSpot Wellbeing Course (incl. Mood Mechanic)",
     "vendor": "MQ Health / Macquarie University",
     "platform": "Web",
@@ -396,7 +396,7 @@
     "cbt_degree": "Core \u2014 transdiagnostic CBT explicitly framed at the 'Wellbeing' family level."
   },
   {
-    "id": "TDI-008",
+    "id": "TDI-007",
     "name": "e-couch",
     "vendor": "e-hub Health (ANU spin-out)",
     "platform": "Web",
@@ -462,7 +462,7 @@
     "cbt_degree": "Mixed \u2014 CBT and IPT both used; Depression and Bereavement programs explicitly combine the two."
   },
   {
-    "id": "TDI-009",
+    "id": "TDI-008",
     "name": "Beating the Blues",
     "vendor": "Maximus / 365 Health Solutions",
     "platform": "Web",

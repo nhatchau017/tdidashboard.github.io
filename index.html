@@ -9,24 +9,21 @@
 </head>
 <body>
 
-<header class="hero">
-  <div class="hero-inner">
-    <h1>Phase 2 Market Scan</h1>
-    <p class="lede">CBT-based Digital Interventions</p>
-    <div class="hero-meta">
-      <span>Methodology: TDI v1.0 (April 2026)</span>
-      <span>Scan window: Q1–Q2 2026</span>
-      <span>28 in-scope products</span>
-      <span>5 excluded with reason</span>
-    </div>
-  </div>
-</header>
+<div class="page-layout">
 
 <nav class="tabs">
   <div class="tabs-inner">
-    <button class="active" data-tab="dashboard">Dashboard</button>
-    <button data-tab="catalog">Product catalog</button>
-    <button><a href="methodology.html" style="color:inherit;text-decoration:none;">Methodology &rarr;</a></button>
+    <div class="brand">◐ Market Scan</div>
+    <div class="nav">
+      <button class="active" data-tab="dashboard">Overview</button>
+      <span class="group-label">Analysis</span>
+      <button data-tab="catalog">Product catalog</button>
+      <button data-tab="compare">Product features</button>
+      <button data-tab="designs">Product design (5)</button>
+      <button data-tab="evidence">Product CBT</button>
+      <span class="group-label">Reference</span>
+      <button><a href="methodology.html" style="color:inherit;text-decoration:none;">Methodology</a></button>
+    </div>
     <div class="spacer"></div>
     <span class="meta" id="result-count"></span>
   </div>
@@ -36,9 +33,17 @@
 
   <section id="tab-dashboard">
 
+    <div class="topbar">
+      <h1>Phase 2 Market Scan</h1>
+      <div class="right">
+        <span>CBT-based Digital Interventions</span>
+        <button class="btn-secondary">Section 0.0–1.1 scope ▾</button>
+      </div>
+    </div>
+
     <div class="kpi-grid">
-      <div class="kpi"><div class="label">Products in scan</div><div class="value" id="kpi-total">—</div><div class="sub">In-scope per Section 1.1</div></div>
-      <div class="kpi"><div class="label">Core CBT</div><div class="value" id="kpi-core">—</div><div class="sub">CBT is the active framework</div></div>
+      <div class="kpi"><div class="label">Products in scan</div><div class="value" id="kpi-total">—</div><div class="sub">In-scope per Section 0.0 and 1.1</div></div>
+      <div class="kpi"><div class="label">Core CBT</div><div class="value" id="kpi-core">—</div><div class="sub">CBT as the active component</div></div>
       <div class="kpi"><div class="label">Survivorship-fit</div><div class="value" id="kpi-surv">—</div><div class="sub">Cancer-specific design transfer</div></div>
       <div class="kpi"><div class="label">Adjacent AYA</div><div class="value" id="kpi-aya">—</div><div class="sub">Paediatric chronic-illness audience</div></div>
     </div>
@@ -127,10 +132,6 @@
       </div>
       <div class="chip-row" id="active-chips"></div>
       <div class="view-toggle-row">
-        <span class="view-toggle-label">View:</span>
-        <button class="view-toggle active" data-view="cards">Cards (full evidence)</button>
-        <button class="view-toggle" data-view="table">Compact table</button>
-        <span class="view-toggle-hint">Cards show every evidence field inline · Click any card or row to open full detail</span>
       </div>
     </div>
 
@@ -157,7 +158,256 @@
     </div>
   </section>
 
+  <section id="tab-compare" class="hidden">
+    <div class="panel">
+      <h2>Feature comparison matrix</h2>
+      <div class="compare-controls">
+        <div>
+          <label class="compare-ctrl-label">Sort by</label>
+          <select id="compare-sort">
+            <option value="id">Product ID</option>
+            <option value="name">Name A–Z</option>
+            <option value="score">Feature score (most first)</option>
+          </select>
+        </div>
+        <div>
+          <label class="compare-ctrl-label">Highlight rows that have</label>
+          <select id="compare-highlight">
+            <option value="">— none —</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="padding:0;overflow:hidden;">
+      <div style="overflow:auto; max-height: calc(100vh - 180px);">
+        <table class="feature-matrix" id="compare-table"></table>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="tab-evidence" class="hidden">
+    <div class="panel" style="margin-bottom:14px;">
+      <h2 style="margin-bottom:0">Real-world evidence: CBT use</h2>
+      <p style="margin:6px 0 0;color:var(--ink-soft);font-size:13px;">How each product delivers CBT in practice — structure, concepts, tools, and validated measures.</p>
+    </div>
+    <div id="evidence-container"></div>
+  </section>
+
+  <section id="tab-designs" class="hidden">
+    <div class="panel" style="margin-bottom:14px;">
+      <h2 style="margin-bottom:4px">UI Design Showcase</h2>
+    </div>
+
+    <!-- 1. Untire -->
+    <div class="panel ds-card">
+      <div class="ds-header">
+        <div class="ds-title-row">
+          <h2 class="ds-name">Untire</h2><span class="ds-org">Tired of Cancer Foundation &middot; Netherlands</span>
+        </div>
+        <div class="ds-badges">
+          <span class="ds-badge web">Most Similar to the aim of current project</span>
+          <span class="ds-badge type">Cancer-specific</span>
+        </div>
+        <p></p>
+        <p style="margin:0;color:var(--ink-soft);font-size:13px;">12-week cancer-related fatigue self-management program structured around 9 themes: energy, sleep, stress, fear, fatigue, battery, food, and movement. Combines psychoeducation, CBT, mindfulness-based stress reduction, and graded physical activity.</p>
+        <p></p>
+        <div class="ds-links">
+          <a href="https://untire.app/en/" target="_blank" rel="noopener">Website &#8599;</a>
+          <a href="https://play.google.com/store/apps/details?id=com.tiredofcancer&hl=en-US" target="_blank" rel="noopener">Google Play &#8599;</a>
+          <a href="https://apps.apple.com/us/app/untire/id1381576443" target="_blank" rel="noopener">App Store &#8599;</a>
+        </div>
+      </div>
+      <p class="ds-section-label">Mobile screenshots</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner mobile-gallery">
+          <figure class="ds-shot"><img src="https://tiredofcancerapp.com/wp-content/uploads/2024/09/Vijf-screenshots-UK.png" alt="Untire screen mockup v2" loading="lazy" referrerpolicy="no-referrer" /><figcaption>New version</figcaption></figure>
+          <figure class="ds-shot"><img src="https://www.foundahealth.com/hs-fs/hubfs/Partner%20logo/Digital%20Health%20Solutions/5-screenshots-opposite.png?width=3840&height=2160&name=5-screenshots-opposite.png" alt="Untire app mockup v1" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Old version</figcaption></figure>
+        </div>
+      </div>
+      <div class="ds-features">
+        <span class="ds-feature">9-theme modular structure</span>
+        <span class="ds-feature">Weekly progress tracking</span>
+        <span class="ds-feature">Guided CBT exercises</span>
+        <span class="ds-feature">Psychoeducation</span>
+        <span class="ds-feature">Mindfulness audio</span>
+        <span class="ds-feature">Online community</span>
+        <span class="ds-feature">Self-test tool</span>
+      </div>
+    </div>
+
+    <!-- 2. Wysa -->
+    <div class="panel ds-card">
+      <div class="ds-header">
+        <div class="ds-title-row">
+          <h2 class="ds-name">Wysa</h2><span class="ds-org">Wysa Inc. &middot; USA / India</span>
+        </div>
+        <div class="ds-badges">
+          <span class="ds-badge web">Include AI chatbot features</span>
+          <span class="ds-badge type">AI-mediated</span>
+        </div>
+        <p></p>
+        <p style="margin:0;color:var(--ink-soft);font-size:13px;">AI-powered mental wellness chatbot featuring a penguin mascot, conversational CBT, guided exercises for anxiety and depression, automatic journaling, goal-setting planner, and mood tracking. Anonymous onboarding with optional therapist escalation. Independently verified for 5 crisis support pathways.</p>
+        <p></p>
+        <div class="ds-links">
+          <a href="https://www.wysa.com/for-individuals" target="_blank" rel="noopener">Website &#8599;</a>
+          <a href="https://apps.apple.com/us/app/wysa-mental-wellbeing-ai/id1166585565" target="_blank" rel="noopener">App Store &#8599;</a>
+          <a href="https://play.google.com/store/apps/details?id=bot.touchkin" target="_blank" rel="noopener">Google Play &#8599;</a>
+        </div>
+      </div>
+      <p class="ds-section-label">Mobile screenshots</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner mobile-gallery">
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/2d088782440f4a9cae3dd2db7b9a40f4.webp" alt="Wysa screen 1" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 1</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/b2a65b6a257a4fcda4dd5e30ce3c0a6b.webp" alt="Wysa screen 2" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 2</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/23cbed939c364028a62c92ecd87867c3.webp" alt="Wysa screen 3" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 3</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/1792352380704e5ea6b7f91c620f8a58.webp" alt="Wysa screen 4" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 4</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/471a99a588624e0baa3ccd66f03748af.webp" alt="Wysa screen 5" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 5</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/0ec69fd8d0fd4d89acca1567f2a98025.webp" alt="Wysa screen 6" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 6</figcaption></figure>
+          <figure class="ds-shot"><img src="https://media.screensdesign.com/avs-pp/5110f2004b8842b6af4c2424100e38ad.webp" alt="Wysa screen 7" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 7</figcaption></figure>
+        </div>
+      </div>
+      <div class="ds-features">
+        <span class="ds-feature">Penguin AI chatbot</span>
+        <span class="ds-feature">Conversational CBT</span>
+        <span class="ds-feature">Anonymous onboarding</span>
+        <span class="ds-feature">Automatic journaling</span>
+        <span class="ds-feature">Mood tracking</span>
+        <span class="ds-feature">Goal-setting planner</span>
+        <span class="ds-feature">5 crisis support pathways</span>
+      </div>
+    </div>
+
+    <!-- 3. MindShift CBT -->
+    <div class="panel ds-card">
+      <div class="ds-header">
+        <div class="ds-title-row">
+          <h2 class="ds-name">MindShift CBT</h2><span class="ds-org">Anxiety Canada &middot; Canada</span>
+        </div>
+        <div class="ds-badges">
+          <span class="ds-badge web">Developed by CAMH and Anxiety Canada</span>
+          <span class="ds-badge type">Self-guided</span>
+        </div>
+        <p></p>
+        <p style="margin:0;color:var(--ink-soft);font-size:13px;">Free CBT-based anxiety management app with 1.5M+ lifetime downloads. Featured mood check-in tracker (MS Face slider), thought journal, fear ladder, guided breathing and meditation (Chill Zone), coping cards, and a moderated community forum.</p>
+        <p></p>
+        <div class="ds-links">
+          <a href="https://www.anxietycanada.com/mindshift-cbt" target="_blank" rel="noopener">Website &#8599;</a>
+          <a href="https://apps.apple.com/ca/app/mindshift-cbt-anxiety-relief/id634684825" target="_blank" rel="noopener">App Store &#8599;</a>
+          <a href="https://play.google.com/store/apps/details?id=com.bstro.MindShift&hl=en_CA" target="_blank" rel="noopener">Google Play &#8599;</a>
+        </div>
+      </div>
+      <p class="ds-section-label">Mobile screenshots</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner mobile-gallery">
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/d3/9e/09/d39e09de-4e5e-e91f-adbf-a1f7d9eaae72/6a8933aa-5215-4dfe-a148-6c3c1069da6c_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.43.06.png/460x996bb.webp" alt="MindShift CBT screen 1" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 1</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/2b/f7/89/2bf78904-1765-710a-c717-314f497c87ae/2bd9a5bf-3ccd-4f1e-827a-9c3fd3a1195b_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.45.04.png/460x996bb.webp" alt="MindShift CBT screen 2" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 2</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/11/2b/f3/112bf382-c771-b779-e6cf-76e1907c7181/eca636bd-d608-45b5-b312-9681f124f0b9_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.45.19.png/460x996bb.webp" alt="MindShift CBT screen 3" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 3</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/00/89/7f/00897f4b-d98b-eb00-31a1-dded67e076ed/67abf761-a8d3-4cab-b1ee-bdfc6978bd7f_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.45.23.png/460x996bb.webp" alt="MindShift CBT screen 4" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 4</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/b5/38/da/b538dadf-5d40-1da5-c62e-6af8b2101484/35f706f7-180e-45c9-bd69-fc40d52e114a_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-20_at_00.00.41.png/600x1300bb.webp" alt="MindShift CBT screen 5" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 5</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/26/ec/04/26ec04f8-634a-3057-ef00-9db2940a9d84/4abcb127-06a9-4da5-9f14-f477f287bee5_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.45.37.png/600x1300bb.webp" alt="MindShift CBT screen 6" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 6</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/05/f1/53/05f15317-3d66-5f31-e662-656cd8395174/4f6cceb6-27c7-4a48-a9c1-01d414361f6e_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-20_at_01.02.22.png/600x1300bb.webp" alt="MindShift CBT screen 7" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 7</figcaption></figure>
+          <figure class="ds-shot"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/32/7d/8a/327d8a47-cfb0-a788-1a51-97f16e9cf8fd/f5932d43-6a2b-430d-8264-daf5d6d7d7f2_Simulator_Screenshot_-_iPhone_14_Plus_-_2023-12-19_at_23.46.41.png/600x1300bb.webp" alt="MindShift CBT screen 8" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Screen 8</figcaption></figure>
+        </div>
+      </div>
+      <div class="ds-features">
+        <span class="ds-feature">Mood check-in (MS Face slider)</span>
+        <span class="ds-feature">Thought journal</span>
+        <span class="ds-feature">Fear ladder</span>
+        <span class="ds-feature">Chill Zone (breathing/meditation)</span>
+        <span class="ds-feature">Coping cards</span>
+        <span class="ds-feature">Moderated community forum</span>
+        <span class="ds-feature">English &amp; French</span>
+      </div>
+    </div>
+
+    <!-- 4. MindSpot -->
+    <div class="panel ds-card">
+      <div class="ds-header">
+        <div class="ds-title-row">
+          <h2 class="ds-name">MindSpot</h2><span class="ds-org">MQ Health / Macquarie University &middot; Australia</span>
+        </div>
+        <div class="ds-badges">
+          <span class="ds-badge web">Based on iCanADAPT in Perri’s review</span>
+          <span class="ds-badge type">Therapist-guided</span>
+        </div>
+        <p></p>
+        <p style="margin:0;color:var(--ink-soft);font-size:13px;">Online psychological treatment service offering structured therapist-guided CBT programs for depression, anxiety, PTSD, and chronic pain. Validated assessments at intake (PHQ-9, GAD-7, K-10). Asynchronous therapist messaging.</p>
+        <p></p>
+        <div class="ds-links">
+          <a href="https://mindspot.org.au/" target="_blank" rel="noopener">Website &#8599;</a>
+          <a href="https://mindspot.org.au/how-it-works" target="_blank" rel="noopener">How it works &#8599;</a>
+        </div>
+      </div>
+      <p class="ds-section-label">Web interface</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner web-gallery">
+          <figure class="ds-shot"><img src="https://images.prismic.io/mindspot/ZnOXxZm069VX15nb_banner_v3.png?auto=format,compress" alt="MindSpot homepage" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Homepage</figcaption></figure>
+          <figure class="ds-shot"><img src="https://images.prismic.io/mindspot/Zo3qvR5LeNNTw-Eq_Welcome.png?auto=format,compress" alt="MindSpot welcome screen" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Welcome screen</figcaption></figure>
+        </div>
+      </div>
+      <div class="ds-features">
+        <span class="ds-feature">PHQ-9 / GAD-7 / K-10 intake</span>
+        <span class="ds-feature">Structured CBT programs</span>
+        <span class="ds-feature">Asynchronous therapist messaging</span>
+        <span class="ds-feature">PTSD &amp; chronic pain modules</span>
+        <span class="ds-feature">Free to Australians</span>
+        <span class="ds-feature">NHMRC-backed evidence base</span>
+      </div>
+    </div>
+
+    <!-- 5. Clear Fear -->
+    <div class="panel ds-card">
+      <div class="ds-header">
+        <div class="ds-title-row">
+          <h2 class="ds-name">Clear Fear</h2><span class="ds-org">stem4 &middot; United Kingdom</span>
+        </div>
+        <div class="ds-badges">
+          <span class="ds-badge platform">Match eligibility age range</span>
+          <span class="ds-badge type">Youth co-design</span>
+        </div>
+        <p></p>
+        <p style="margin:0;color:var(--ink-soft);font-size:13px;">CBT-based anxiety app for adolescent and young people aged 16–25. Features organised around the FEAR acronym (Feel it, Explore it, Accept it, Release it). Includes breathing exercises, worry box, fear exposure ladder, safety net planning, and the Glide gamification mini-game.</p>
+        <p></p>
+        <div class="ds-links">
+          <a href="https://clearfear.stem4.org.uk/" target="_blank" rel="noopener">Website &#8599;</a>
+          <a href="https://apps.apple.com/gb/app/clear-fear/id1437282350" target="_blank" rel="noopener">App Store &#8599;</a>
+          <a href="https://play.google.com/store/apps/details?id=uk.org.stem4.clearfear" target="_blank" rel="noopener">Google Play &#8599;</a>
+        </div>
+      </div>
+      <p class="ds-section-label">Mobile screenshots</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner mobile-gallery">
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/splash-screen-screenshot.png" alt="Clear Fear splash screen" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Splash screen</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/Home-screenshot.png" alt="Clear Fear home" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Home</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/clear-your-fear-screenshot.png" alt="Clear your fear" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Clear your fear</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/safety-net-screenshot.png" alt="Safety net" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Safety net</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/Panic-attacks-1-screenshot.png" alt="Panic attacks 1" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Panic attacks (1)</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/Panic-attacks-2-screenshot.png" alt="Panic attacks 2" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Panic attacks (2)</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/Breathing-technique-screenshot.png" alt="Breathing technique" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Breathing technique</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/Worry-box-screenshot.png" alt="Worry box" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Worry box</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/glide-screenshot.png" alt="Glide game" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Glide (game)</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/self-monitoring-screenshot.png" alt="Self-monitoring" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Self-monitoring</figcaption></figure>
+          <figure class="ds-shot"><img src="https://clearfear.stem4.org.uk/wp-content/uploads/2018/12/inspirational-people-screenshot.png" alt="Inspirational people" loading="lazy" referrerpolicy="no-referrer" /><figcaption>Inspirational people</figcaption></figure>
+        </div>
+      </div>
+      <div class="ds-features">
+        <span class="ds-feature">FEAR acronym framework</span>
+        <span class="ds-feature">Youth co-design (ages 14–17)</span>
+        <span class="ds-feature">Breathing exercises</span>
+        <span class="ds-feature">Worry box</span>
+        <span class="ds-feature">Safety net plan</span>
+        <span class="ds-feature">Glide gamification mini-game</span>
+        <span class="ds-feature">Self-monitoring</span>
+        <span class="ds-feature">Inspirational stories</span>
+      </div>
+    </div>
+
+  </section>
+
 </main>
+
+</div><!-- /.page-layout -->
 
 <div class="modal-back" id="modal-back" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
@@ -165,10 +415,6 @@
     <div id="modal-body"></div>
   </div>
 </div>
-
-<footer>
-  <div>Phase 2 Market Scan Dashboard · Generated April 2026</div>
-</footer>
 
 <script src="data.js"></script>
 <script src="app.js"></script>

@@ -16,6 +16,12 @@ const FEATURE_LABELS = {
   f_jitai: "Just-in-time interventions for flares", f_peer: "Moderated peer support",
   f_ccs_custom: "Customised for CCS", f_late_glossary: "Late-effect glossary",
 };
+const FEATURE_SHORT = {
+  f_transdx: "Transdiag.", f_coping: "Coping tools", f_transition: "Transition",
+  f_disclosure: "Disclosure", f_pain_mind: "Pain mind.", f_gamif: "Gamification",
+  f_clusters: "Symptom clusters", f_cbt_cancer: "CBT/cancer", f_jitai: "JITAI/flare",
+  f_peer: "Peer support", f_ccs_custom: "CCS custom", f_late_glossary: "Late effects",
+};
 const DIM_LABELS = {
   ucd: "1. UCD & usability for AYA",
   cbt_comorbid: "2. Transdiagnostic CBT fidelity",
@@ -96,14 +102,14 @@ function destroyCharts() { Object.values(charts).forEach(c => c && c.destroy());
 function makeBar(id, labels, data, opts = {}) {
   charts[id] = new Chart($("#" + id).getContext("2d"), {
     type: "bar",
-    data: { labels, datasets: [{ data, backgroundColor: opts.color || "#2b59c3", borderRadius: 6, maxBarThickness: 32 }] },
+    data: { labels, datasets: [{ data, backgroundColor: opts.color || "#c96442", borderRadius: 4, maxBarThickness: 28 }] },
     options: {
       indexAxis: opts.horizontal ? "y" : "x",
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: { color: "#4a5568", font: { size: 11 } }, grid: { color: "#eef0f5" } },
-        y: { ticks: { color: "#4a5568", font: { size: 11 } }, grid: { color: "#eef0f5" }, beginAtZero: true, precision: 0 },
+        x: { ticks: { color: "#6b6964", font: { size: 11 } }, grid: { color: "#e6e4e0" } },
+        y: { ticks: { color: "#6b6964", font: { size: 11 } }, grid: { color: "#e6e4e0" }, beginAtZero: true, precision: 0 },
       },
     },
   });
@@ -111,8 +117,8 @@ function makeBar(id, labels, data, opts = {}) {
 function makeDoughnut(id, labels, data) {
   charts[id] = new Chart($("#" + id).getContext("2d"), {
     type: "doughnut",
-    data: { labels, datasets: [{ data, backgroundColor: ["#2b59c3", "#1c8b5a", "#c97f00", "#8392ab", "#b3261e", "#7c4dff", "#0ea5e9", "#84cc16"], borderWidth: 0 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { font: { size: 11 }, color: "#4a5568" } } } },
+    data: { labels, datasets: [{ data, backgroundColor: ["#c96442", "#1c1b1a", "#6b6964", "#b53a2a", "#2f7d4a", "#a07300", "#d4a08a", "#e6e4e0"], borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { font: { size: 11 }, color: "#6b6964" } } } },
   });
 }
 
@@ -120,7 +126,7 @@ function renderCharts(list) {
   destroyCharts();
 
   const symptomCounts = Object.keys(SYMPTOM_LABELS).map(k => list.filter(p => isYes(p[k])).length);
-  makeBar("chart-symptoms", Object.values(SYMPTOM_LABELS), symptomCounts, { horizontal: true, color: "#2b59c3" });
+  makeBar("chart-symptoms", Object.values(SYMPTOM_LABELS), symptomCounts, { horizontal: true, color: "#c96442" });
 
   const countryCounts = {};
   list.forEach(p => {
@@ -128,10 +134,10 @@ function renderCharts(list) {
     countryCounts[primary] = (countryCounts[primary] || 0) + 1;
   });
   const sortedCountries = Object.entries(countryCounts).sort((a,b) => b[1]-a[1]);
-  makeBar("chart-countries", sortedCountries.map(x=>x[0]), sortedCountries.map(x=>x[1]), { horizontal: true, color: "#1c8b5a" });
+  makeBar("chart-countries", sortedCountries.map(x=>x[0]), sortedCountries.map(x=>x[1]), { horizontal: true, color: "#1c1b1a" });
 
   const deliveryCounts = Object.keys(DELIVERY_LABELS).map(k => list.filter(p => isYes(p[k])).length);
-  makeBar("chart-delivery", Object.values(DELIVERY_LABELS), deliveryCounts, { color: "#7c4dff" });
+  makeBar("chart-delivery", Object.values(DELIVERY_LABELS), deliveryCounts, { color: "#6b6964" });
 
   const popLabels = Object.values(POP_LABELS);
   const popCounts = Object.keys(POP_LABELS).map(k => list.filter(p => isYes(p[k])).length);
@@ -147,7 +153,7 @@ function renderCharts(list) {
   const mCounts = measureKeys.map(k =>
     list.filter(p => (p.standardized_measures || "").includes(k)).length
   );
-  makeBar("chart-measures", measureKeys, mCounts, { horizontal: true, color: "#0ea5e9" });
+  makeBar("chart-measures", measureKeys, mCounts, { horizontal: true, color: "#c96442" });
 }
 
 // ---------- Filters ----------
@@ -232,26 +238,6 @@ function renderActiveChips() {
   }
 }
 
-function renderTable(list) {
-  const tbody = $("#products-body");
-  tbody.innerHTML = "";
-  list.forEach(p => {
-    const tr = document.createElement("tr");
-    tr.dataset.id = p.id;
-    tr.innerHTML = `
-      <td>${p.id}</td>
-      <td><div class="product-name">${escapeHTML(p.name)}</div><div style="color:var(--muted);font-size:11px">${escapeHTML(p.platform || "")}</div></td>
-      <td>${escapeHTML(p.vendor || "")}</td>
-      <td><span class="country-tag">${escapeHTML((p.country || "").split("/")[0].trim())}</span></td>
-      <td><div class="symptom-tags">${symptomTagsFor(p) || '<span style="color:var(--muted);font-size:11px">None coded Yes</span>'}</div></td>
-      <td><div class="symptom-tags">${deliveryTagsFor(p)}</div></td>
-      <td>${cbtDegreeBadge(p)}</td>
-      <td><div class="symptom-tags">${populationTagsFor(p)}</div></td>
-    `;
-    tr.addEventListener("click", () => openModal(p));
-    tbody.appendChild(tr);
-  });
-}
 
 function fieldOrUnknown(value) {
   if (!value || value === "Unknown") {
@@ -268,68 +254,108 @@ function renderCards(list) {
     card.className = "product-card";
     card.dataset.id = p.id;
     const country = (p.country || "").split("/")[0].trim() || "Unknown";
-    const stores = `
-      ${storeButton("Apple App Store", p.app_store_url)}
-      ${storeButton("Google Play", p.google_play_url)}
-    `;
-    const evidenceFields = [
-      ["Where CBT shows up", p.cbt_location],
-      ["How CBT is structured", p.cbt_structure],
-      ["CBT concepts used", p.cbt_concepts],
-      ["Concrete CBT tools", p.cbt_tools],
-      ["Standardised measures", p.standardized_measures],
-      ["Usage & adoption", p.usage_adoption],
-      ["Daily readings / lessons", p.daily_content],
-      ["Psychoeducation", p.psychoeducation],
-    ];
-    const evidenceHtml = evidenceFields.map(([k, v]) => `
-      <div class="field">
-        <div class="field-label">${k}</div>
-        ${fieldOrUnknown(v)}
-      </div>
-    `).join("");
-
     const popTags = populationTagsFor(p) || '<span style="color:var(--muted);font-size:11px">Unknown</span>';
     const symptomTags = symptomTagsFor(p) || '<span style="color:var(--muted);font-size:11px">None coded Yes</span>';
     const deliveryTags = deliveryTagsFor(p);
 
     card.innerHTML = `
-      <div class="pc-header">
-        <div style="flex:1; min-width:0">
-          <div class="pc-id">${p.id}</div>
-          <div class="pc-name">${escapeHTML(p.name)}</div>
-          <div class="pc-meta">
-            ${escapeHTML(p.vendor || "Unknown vendor")}
-            <span class="sep">·</span>${escapeHTML(country)}
-            <span class="sep">·</span>${escapeHTML(p.platform || "")}
-          </div>
-        </div>
+      <div class="pc-left">
+        <div class="pc-id">${p.id}</div>
+        <div class="pc-name">${escapeHTML(p.name)}</div>
+        <div class="pc-meta">${escapeHTML(p.vendor || "Unknown vendor")}</div>
+        <div class="pc-meta">${escapeHTML(country)}</div>
         ${cbtDegreeBadge(p)}
       </div>
-      ${p.elevator_pitch && p.elevator_pitch !== "Unknown" ? `<div class="pc-pitch">${escapeHTML(p.elevator_pitch)}</div>` : ""}
-      <div class="pc-stores">${stores}</div>
-
-      <div class="pc-tag-row">
-        <span class="label">Symptoms</span>
-        <div class="pc-tags">${symptomTags}</div>
+      <div class="pc-body">
+        ${p.elevator_pitch && p.elevator_pitch !== "Unknown" ? `<div class="pc-pitch">${escapeHTML(p.elevator_pitch)}</div>` : ""}
+        <div class="pc-tag-row">
+          <span class="label">Symptoms</span>
+          <div class="pc-tags">${symptomTags}</div>
+        </div>
+        <div class="pc-tag-row">
+          <span class="label">Delivery</span>
+          <div class="pc-tags">${deliveryTags}</div>
+        </div>
+        <div class="pc-tag-row">
+          <span class="label">Population</span>
+          <div class="pc-tags">${popTags}</div>
+        </div>
       </div>
-      <div class="pc-tag-row">
-        <span class="label">Delivery</span>
-        <div class="pc-tags">${deliveryTags}</div>
+      <div class="pc-actions">
+        <div class="pc-link">View details</div>
       </div>
-      <div class="pc-tag-row">
-        <span class="label">Population</span>
-        <div class="pc-tags">${popTags}</div>
-      </div>
-
-      <div class="pc-evidence">${evidenceHtml}</div>
-
-      <div class="pc-link">View full evidence (features, dimensions, all measures)</div>
     `;
-    // Stop modal opening if user clicks store buttons inside the card
     card.querySelectorAll('a').forEach(a => a.addEventListener('click', e => e.stopPropagation()));
     card.addEventListener("click", () => openModal(p));
     wrap.appendChild(card);
+  });
+}
+
+// ---------- Feature comparison ----------
+function featureScore(p) {
+  return Object.keys(FEATURE_LABELS).filter(k => isYes(p[k])).length;
+}
+
+function featureCell(val) {
+  if (isYes(val)) return '<td class="fcell fcell-yes">✓</td>';
+  if (isNo(val)) return '<td class="fcell fcell-no">–</td>';
+  return '<td class="fcell fcell-unk">?</td>';
+}
+
+function renderCompare() {
+  const sortVal = ($("#compare-sort") || {}).value || "id";
+  const hlKey   = ($("#compare-highlight") || {}).value || "";
+  let list = PRODUCTS.slice();
+  if (sortVal === "name")  list.sort((a, b) => a.name.localeCompare(b.name));
+  else if (sortVal === "score") list.sort((a, b) => featureScore(b) - featureScore(a));
+  else list.sort((a, b) => a.id.localeCompare(b.id));
+
+  const fkeys = Object.keys(FEATURE_LABELS);
+  const colgroup = `<colgroup>
+    <col style="width:56px">
+    <col style="width:130px">
+    <col style="width:50px">
+    ${fkeys.map(() => '<col style="width:36px">').join("")}
+    <col style="width:54px">
+  </colgroup>`;
+  const thead = `<thead><tr>
+    <th class="fth-sticky fth-id">ID</th>
+    <th class="fth-sticky fth-name">Product</th>
+    <th class="fth-sticky fth-country">Country</th>
+    ${fkeys.map(k => `<th class="fth-feature" title="${FEATURE_LABELS[k]}"><div>${FEATURE_SHORT[k]}</div></th>`).join("")}
+    <th class="fth-feature fth-score">Score</th>
+  </tr></thead>`;
+
+  const tfoot = `<tfoot><tr class="frow-totals">
+    <td colspan="3" class="ftotal-label">Products with Yes →</td>
+    ${fkeys.map(k => {
+      const yes = PRODUCTS.filter(p => isYes(p[k])).length;
+      const unk = PRODUCTS.filter(p => !isYes(p[k]) && !isNo(p[k])).length;
+      return `<td class="fcell ftotal-cell"><strong>${yes}</strong><br><span class="ftotal-unk">+${unk}?</span></td>`;
+    }).join("")}
+    <td></td>
+  </tr></tfoot>`;
+
+  const tbody = list.map(p => {
+    const score = featureScore(p);
+    const hl = hlKey && isYes(p[hlKey]) ? " class=\"frow-hl\"" : "";
+    const country = escapeHTML((p.country || '').split('/')[0].trim());
+    return `<tr${hl} data-id="${p.id}">
+      <td class="fcell-id">${p.id}</td>
+      <td class="fcell-name">${escapeHTML(p.name)}</td>
+      <td class="fcell-country">${country}</td>
+      ${fkeys.map(k => featureCell(p[k])).join("")}
+      <td class="fcell fcell-score">${score}/12</td>
+    </tr>`;
+  }).join("");
+
+  const table = $("#compare-table");
+  table.innerHTML = colgroup + thead + tfoot + `<tbody>${tbody}</tbody>`;
+  table.querySelectorAll("tr[data-id]").forEach(tr => {
+    tr.addEventListener("click", () => {
+      const p = PRODUCTS.find(x => x.id === tr.dataset.id);
+      if (p) openModal(p);
+    });
   });
 }
 
@@ -347,15 +373,48 @@ function refresh() {
   renderKPIs(list);
   renderCharts(list);
   renderCards(list);
-  renderTable(list);
+  renderEvidence(list);
   updateSortIndicators();
 }
 
-function setCatalogView(name) {
-  $$(".view-toggle").forEach(b => b.classList.toggle("active", b.dataset.view === name));
-  $("#cards-container").classList.toggle("hidden", name !== "cards");
-  $("#table-container").classList.toggle("hidden", name !== "table");
+// ---------- CBT Evidence tab ----------
+function renderEvidence(list) {
+  const container = $("#evidence-container");
+  if (!container) return;
+  container.innerHTML = list.map(p => {
+    const degree = cbtDegreeLabel(p);
+    const fields = [
+      ["Where CBT shows up", p.cbt_location],
+      ["How CBT is structured", p.cbt_structure],
+      ["CBT concepts", p.cbt_concepts],
+      ["CBT tools", p.cbt_tools],
+      ["Standardised measures", p.standardized_measures],
+      ["Psychoeducation", p.psychoeducation],
+      ["Daily content", p.daily_content],
+      ["Usage & adoption", p.usage_adoption],
+    ];
+    const fieldsHtml = fields.map(([label, val]) => `
+      <div class="ev-field">
+        <div class="ev-field-label">${label}</div>
+        <div class="ev-field-value${!val || val === 'Unknown' ? ' unknown' : ''}">${!val || val === 'Unknown' ? 'Unknown' : escapeHTML(val)}</div>
+      </div>`).join("");
+    const country = (p.country || "").split("/")[0].trim();
+    return `
+      <div class="ev-card">
+        <div class="ev-header">
+          <div class="ev-title-block">
+            <span class="pc-id">${p.id}</span>
+            <span class="ev-name">${escapeHTML(p.name)}</span>
+            <span class="ev-meta">${escapeHTML(p.vendor || "")}${country ? " · " + escapeHTML(country) : ""}</span>
+          </div>
+          ${cbtDegreeBadge(p)}
+          ${p.cbt_degree && p.cbt_degree !== "Unknown" ? `<div class="ev-degree-text">${escapeHTML(p.cbt_degree)}</div>` : ""}
+        </div>
+        <div class="ev-grid">${fieldsHtml}</div>
+      </div>`;
+  }).join("");
 }
+
 
 // ---------- Modal ----------
 function detailLine(label, val) {
@@ -376,12 +435,6 @@ function storeButton(label, url) {
 function openModal(p) {
   const url = p.url ? `<a href="${p.url}" target="_blank" rel="noopener">${escapeHTML(p.url)}</a>` : '<span class="cell-unknown">Unknown</span>';
   const pitch = p.elevator_pitch ? `<div class="pitch">${escapeHTML(p.elevator_pitch)}</div>` : "";
-  const stores = `
-    <div class="store-row">
-      ${storeButton("Apple App Store", p.app_store_url)}
-      ${storeButton("Google Play", p.google_play_url)}
-    </div>
-  `;
   const evidenceFields = [
     ["Usage & adoption", p.usage_adoption],
     ["Where CBT shows up", p.cbt_location],
@@ -403,7 +456,6 @@ function openModal(p) {
     <h2>${escapeHTML(p.name)} <span style="font-weight:400;color:var(--muted);font-size:14px">(${p.id})</span> ${cbtDegreeBadge(p)}</h2>
     <div class="vendor">${escapeHTML(p.vendor || "")}</div>
     ${pitch}
-    ${stores}
 
     <div class="detail-grid">
       ${detailLine("Platform", p.platform)}
@@ -457,8 +509,11 @@ function closeModal() { $("#modal-back").classList.remove("open"); }
 
 function setTab(name) {
   $$(".tabs-inner button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
-  $("#tab-dashboard").classList.toggle("hidden", name !== "dashboard");
-  $("#tab-catalog").classList.toggle("hidden", name !== "catalog");
+  ["dashboard", "catalog", "evidence", "compare", "designs"].forEach(t => {
+    const el = $(`#tab-${t}`);
+    if (el) el.classList.toggle("hidden", name !== t);
+  });
+  if (name === "compare") renderCompare();
 }
 
 function init() {
@@ -471,15 +526,6 @@ function init() {
   $("#population").addEventListener("change", e => { state.population = e.target.value; refresh(); });
   $("#cbtDegree").addEventListener("change", e => { state.cbtDegree = e.target.value; refresh(); });
 
-  $$("#products-table th[data-sort]").forEach(th => {
-    th.addEventListener("click", () => {
-      const k = th.dataset.sort;
-      if (state.sortKey === k) state.sortDir *= -1;
-      else { state.sortKey = k; state.sortDir = 1; }
-      refresh();
-    });
-  });
-
   $("#modal-close").addEventListener("click", closeModal);
   $("#modal-back").addEventListener("click", e => { if (e.target === $("#modal-back")) closeModal(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
@@ -488,9 +534,17 @@ function init() {
     b.addEventListener("click", () => setTab(b.dataset.tab));
   });
 
-  $$(".view-toggle").forEach(b => {
-    b.addEventListener("click", () => setCatalogView(b.dataset.view));
-  });
+  const hlSel = $("#compare-highlight");
+  if (hlSel) {
+    Object.keys(FEATURE_LABELS).forEach(k => {
+      const opt = document.createElement("option");
+      opt.value = k; opt.textContent = FEATURE_LABELS[k];
+      hlSel.appendChild(opt);
+    });
+  }
+  const cmpSort = $("#compare-sort");
+  if (cmpSort) cmpSort.addEventListener("change", renderCompare);
+  if (hlSel)   hlSel.addEventListener("change", renderCompare);
 
   refresh();
 }
