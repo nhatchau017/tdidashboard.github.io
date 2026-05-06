@@ -114,10 +114,11 @@ function makeBar(id, labels, data, opts = {}) {
     },
   });
 }
-function makeDoughnut(id, labels, data) {
+function makeDoughnut(id, labels, data, colors) {
+  const defaultColors = ["#97b68f", "#6b8f62", "#c4d8be", "#4e7a55", "#b0cba9", "#7fa37a", "#d6e8d2", "#3d6147"];
   charts[id] = new Chart($("#" + id).getContext("2d"), {
     type: "doughnut",
-    data: { labels, datasets: [{ data, backgroundColor: ["#c96442", "#1c1b1a", "#6b6964", "#b53a2a", "#2f7d4a", "#a07300", "#d4a08a", "#e6e4e0"], borderWidth: 0 }] },
+    data: { labels, datasets: [{ data, backgroundColor: colors || defaultColors, borderWidth: 0 }] },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "right", labels: { font: { size: 11 }, color: "#6b6964" } } } },
   });
 }
@@ -125,8 +126,9 @@ function makeDoughnut(id, labels, data) {
 function renderCharts(list) {
   destroyCharts();
 
-  const symptomCounts = Object.keys(SYMPTOM_LABELS).map(k => list.filter(p => isYes(p[k])).length);
-  makeBar("chart-symptoms", Object.values(SYMPTOM_LABELS), symptomCounts, { horizontal: true, color: "#c96442" });
+  const symptomKeys = Object.keys(SYMPTOM_LABELS).filter(k => k !== "s_cog");
+  const symptomCounts = symptomKeys.map(k => list.filter(p => isYes(p[k])).length);
+  makeBar("chart-symptoms", symptomKeys.map(k => SYMPTOM_LABELS[k]), symptomCounts, { horizontal: true, color: "#97b68f" });
 
   const countryCounts = {};
   list.forEach(p => {
@@ -134,26 +136,26 @@ function renderCharts(list) {
     countryCounts[primary] = (countryCounts[primary] || 0) + 1;
   });
   const sortedCountries = Object.entries(countryCounts).sort((a,b) => b[1]-a[1]);
-  makeBar("chart-countries", sortedCountries.map(x=>x[0]), sortedCountries.map(x=>x[1]), { horizontal: true, color: "#1c1b1a" });
+  makeBar("chart-countries", sortedCountries.map(x=>x[0]), sortedCountries.map(x=>x[1]), { horizontal: true, color: "#97b68f" });
 
   const deliveryCounts = Object.keys(DELIVERY_LABELS).map(k => list.filter(p => isYes(p[k])).length);
-  makeBar("chart-delivery", Object.values(DELIVERY_LABELS), deliveryCounts, { color: "#6b6964" });
+  makeBar("chart-delivery", Object.values(DELIVERY_LABELS), deliveryCounts, { color: "#97b68f" });
 
   const popLabels = Object.values(POP_LABELS);
   const popCounts = Object.keys(POP_LABELS).map(k => list.filter(p => isYes(p[k])).length);
-  makeDoughnut("chart-pop", popLabels, popCounts);
+  makeDoughnut("chart-pop", popLabels, popCounts, ["#97b68f", "#d6e8d2", "#d6e8d2"]);
 
   // CBT degree
   const degrees = ["Core", "Mixed", "Loose"];
   const dCounts = degrees.map(d => list.filter(p => cbtDegreeLabel(p) === d).length);
-  makeDoughnut("chart-cbt-degree", degrees, dCounts);
+  makeDoughnut("chart-cbt-degree", degrees, dCounts, ["#97b68f", "#d6e8d2", "#d6e8d2"]);
 
   // Standardised measures: count mentions of common screeners
   const measureKeys = ["PHQ-9", "GAD-7", "K-10", "WHO-5", "ISI", "DBAS-16", "PROMIS", "RCADS", "SCAS", "POMS", "CES-D"];
   const mCounts = measureKeys.map(k =>
     list.filter(p => (p.standardized_measures || "").includes(k)).length
   );
-  makeBar("chart-measures", measureKeys, mCounts, { horizontal: true, color: "#c96442" });
+  makeBar("chart-measures", measureKeys, mCounts, { horizontal: true, color: "#97b68f" });
 }
 
 // ---------- Filters ----------
