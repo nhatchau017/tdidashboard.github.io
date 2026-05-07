@@ -379,6 +379,21 @@ footer { color: var(--muted); font-size: 12px; padding: 24px 0; text-align: cent
 
 .ds-features { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
 .ds-feature  { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 11px; color: var(--muted); }
+.ds-feature.ds-feature-cbt { background: rgba(151,182,143,.18); border-color: rgba(110,143,98,.45); color: #3d6147; font-weight: 500; }
+
+/* ── All Designs tab ─────────────────────────────────────── */
+.ad-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.ad-section:first-of-type { margin-top: 4px; padding-top: 10px; }
+.ad-h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin: 0 0 8px; }
+.ad-cbt-body { font-size: 13px; color: var(--ink); line-height: 1.55; }
+.ad-cbt-body strong { color: var(--ink); font-weight: 600; }
+.ad-no-shots {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+  background: var(--bg); border: 1px dashed var(--line); border-radius: 8px;
+}
+.ad-no-shots-msg { flex: 1; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.ad-no-shots .btn-secondary { font-size: 12px; padding: 6px 12px; flex-shrink: 0; }
+#ad-search:focus, #ad-cbt:focus, #ad-platform:focus { outline: 1px solid var(--accent); }
 
 /* ── Pills (shared with template) ───────────────────────── */
 .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }

@@ -17,8 +17,9 @@
     <div class="nav">
       <button class="active" data-tab="dashboard">Overview</button>
       <span class="group-label">Main</span>
-      <button data-tab="compare">Feature comparison (27)</button>
+      <button data-tab="compare">Feature comparison (46)</button>
       <button data-tab="designs">Design showcase (5)</button>
+      <button data-tab="all-designs">All product UIs (46)</button>
       <span class="group-label">Main</span>
       <button data-tab="evidence">CBT evidence</button>
       <span class="group-label">Reference</span>
@@ -406,6 +407,29 @@
 
   </section>
 
+  <section id="tab-all-designs" class="hidden">
+    <div class="panel" style="margin-bottom:14px;">
+      <h2 style="margin-bottom:4px">All product UIs &mdash; CBT delivery, features &amp; screenshots</h2>
+      <p style="margin:6px 0 0;color:var(--ink-soft);font-size:13px;">Per-product pane covering (1) how CBT is delivered in the product, (2) core feature set, and (3) mobile screenshots — or web interface for products with no mobile app.</p>
+      <div class="ad-controls" style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <input id="ad-search" type="text" placeholder="Filter by name, vendor, feature…" style="flex:1;min-width:240px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font:inherit;color:var(--ink);">
+        <select id="ad-cbt" style="padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font:inherit;color:var(--ink);">
+          <option value="">All CBT degrees</option>
+          <option value="Core">Core</option>
+          <option value="Mixed">Mixed</option>
+          <option value="Loose">Loose</option>
+        </select>
+        <select id="ad-platform" style="padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font:inherit;color:var(--ink);">
+          <option value="">All platforms</option>
+          <option value="mobile">Mobile</option>
+          <option value="web">Web only</option>
+        </select>
+        <span class="meta" id="ad-count" style="color:var(--muted);font-size:12px;"></span>
+      </div>
+    </div>
+    <div id="all-designs-container"></div>
+  </section>
+
 </main>
 
 </div><!-- /.page-layout -->
@@ -418,6 +442,7 @@
 </div>
 
 <script src="data.js"></script>
+<script src="screenshots.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

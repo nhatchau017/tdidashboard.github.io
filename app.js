@@ -1,6 +1,7 @@
 /* TDI Phase 2 Market Scan dashboard logic. Vanilla JS. */
 
 const PRODUCTS = window.PRODUCTS || [];
+const PRODUCT_SCREENSHOTS = window.PRODUCT_SCREENSHOTS || {};
 
 const SYMPTOM_LABELS = {
   s_anx: "Anxiety", s_dep: "Depression", s_pain: "Pain", s_fatigue: "Fatigue",
@@ -418,6 +419,151 @@ function renderEvidence(list) {
 }
 
 
+// ---------- All Designs tab ----------
+const ALL_DESIGNS_STATE = { q: "", cbt: "", platform: "" };
+
+function buildCbtDeliveryParagraph(p) {
+  const degree = (p.cbt_degree || "").trim();
+  const location = (p.cbt_location || "").trim();
+  const structure = (p.cbt_structure || "").trim();
+  const parts = [];
+  if (degree && degree !== "Unknown") parts.push(`<strong>CBT involvement:</strong> ${escapeHTML(degree)}`);
+  if (location && location !== "Unknown") parts.push(`<strong>Where CBT shows up:</strong> ${escapeHTML(location)}`);
+  if (structure && structure !== "Unknown") parts.push(`<strong>How it is structured:</strong> ${escapeHTML(structure)}`);
+  if (parts.length === 0) return '<em style="color:var(--muted);">CBT delivery details not documented in the scan.</em>';
+  return parts.map(s => `<p style="margin:0 0 8px;line-height:1.55;">${s}</p>`).join("");
+}
+
+function parseFeatures(allFeatures) {
+  if (!allFeatures || allFeatures === "Unknown") return [];
+  // Features are usually semicolon-delimited e.g. "AI chatbot [CBT]; mood tracker; ..."
+  return allFeatures.split(/;\s*/)
+    .map(s => s.trim())
+    .filter(Boolean);
+}
+
+function renderFeatureChips(allFeatures) {
+  const items = parseFeatures(allFeatures);
+  if (items.length === 0) {
+    return '<span style="color:var(--muted);font-size:12px;">No feature data captured.</span>';
+  }
+  return items.map(f => {
+    const isCbt = /\[CBT[^\]]*\]/i.test(f);
+    const cleaned = f.replace(/\.+$/, "");
+    return `<span class="ds-feature${isCbt ? ' ds-feature-cbt' : ''}">${escapeHTML(cleaned)}</span>`;
+  }).join("");
+}
+
+function buildShotsHTML(p) {
+  const shots = PRODUCT_SCREENSHOTS[p.id] || [];
+  const isMobile = isYes(p.mobile);
+  if (shots.length > 0) {
+    const galleryClass = isMobile ? "mobile-gallery" : "web-gallery";
+    const sectionLabel = isMobile ? "Mobile screenshots" : "Web interface";
+    const figs = shots.map((url, i) => `
+      <figure class="ds-shot">
+        <img src="${escapeHTML(url)}" alt="${escapeHTML(p.name)} screen ${i+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'" />
+        <figcaption>Screen ${i+1}</figcaption>
+      </figure>`).join("");
+    return `
+      <p class="ds-section-label">${sectionLabel}</p>
+      <div class="ds-gallery">
+        <div class="ds-gallery-inner ${galleryClass}">${figs}</div>
+      </div>`;
+  }
+  // No screenshots — show a tasteful placeholder with website link
+  const webUrl = p.url && p.url !== "Unknown" ? p.url : "";
+  const label = isMobile ? "Mobile screenshots" : "Web interface";
+  const note = isMobile
+    ? "Public mobile screenshots not available — app may be prescribed-only, region-restricted, or removed from the store."
+    : "Web platform — no public UI screenshots indexed; visit product website to preview.";
+  return `
+    <p class="ds-section-label">${label}</p>
+    <div class="ad-no-shots">
+      <div class="ad-no-shots-msg">${note}</div>
+      ${webUrl ? `<a class="btn-secondary" href="${escapeHTML(webUrl)}" target="_blank" rel="noopener">Open product website &#8599;</a>` : ""}
+    </div>`;
+}
+
+function buildLinksHTML(p) {
+  const links = [];
+  if (p.url && p.url !== "Unknown") links.push(`<a href="${escapeHTML(p.url)}" target="_blank" rel="noopener">Website &#8599;</a>`);
+  if (p.app_store_url && /apps\.apple\.com/.test(p.app_store_url)) links.push(`<a href="${escapeHTML(p.app_store_url)}" target="_blank" rel="noopener">App Store &#8599;</a>`);
+  if (p.google_play_url && /play\.google\.com/.test(p.google_play_url)) links.push(`<a href="${escapeHTML(p.google_play_url)}" target="_blank" rel="noopener">Google Play &#8599;</a>`);
+  return links.length ? `<div class="ds-links">${links.join("")}</div>` : "";
+}
+
+function platformBadge(p) {
+  if (isYes(p.mobile) && isYes(p.web)) return `<span class="ds-badge type">Mobile + Web</span>`;
+  if (isYes(p.mobile)) return `<span class="ds-badge type">Mobile</span>`;
+  if (isYes(p.web)) return `<span class="ds-badge type">Web</span>`;
+  return "";
+}
+
+function applyAllDesignsFilter(list) {
+  const q = ALL_DESIGNS_STATE.q.toLowerCase();
+  return list.filter(p => {
+    if (ALL_DESIGNS_STATE.cbt && cbtDegreeLabel(p) !== ALL_DESIGNS_STATE.cbt) return false;
+    if (ALL_DESIGNS_STATE.platform === "mobile" && !isYes(p.mobile)) return false;
+    if (ALL_DESIGNS_STATE.platform === "web" && (isYes(p.mobile) || !isYes(p.web))) return false;
+    if (q) {
+      const blob = [p.id, p.name, p.vendor, p.country, p.all_features, p.cbt_location, p.cbt_structure, p.elevator_pitch].filter(Boolean).join(" ").toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderAllDesigns() {
+  const container = $("#all-designs-container");
+  if (!container) return;
+  const list = applyAllDesignsFilter(PRODUCTS.slice().sort((a,b) => a.id.localeCompare(b.id)));
+  const countEl = $("#ad-count");
+  if (countEl) countEl.textContent = `${list.length} of ${PRODUCTS.length} products`;
+  container.innerHTML = list.map(p => {
+    const country = (p.country || "").split("/")[0].trim();
+    const degree = cbtDegreeLabel(p);
+    const cbtPara = buildCbtDeliveryParagraph(p);
+    const features = renderFeatureChips(p.all_features);
+    const shots = buildShotsHTML(p);
+    const links = buildLinksHTML(p);
+    const elevator = p.elevator_pitch && p.elevator_pitch !== "Unknown"
+      ? `<p style="margin:0 0 12px;color:var(--ink-soft);font-size:13px;line-height:1.5;font-style:italic;">${escapeHTML(p.elevator_pitch)}</p>`
+      : "";
+    return `
+      <div class="panel ds-card" data-id="${p.id}">
+        <div class="ds-header">
+          <div class="ds-title-row">
+            <span class="pc-id" style="font-size:11px;color:var(--muted);font-weight:500;">${p.id}</span>
+            <h2 class="ds-name">${escapeHTML(p.name)}</h2>
+            <span class="ds-org">${escapeHTML(p.vendor || "")}${country ? " &middot; " + escapeHTML(country) : ""}</span>
+          </div>
+          <div class="ds-badges">
+            ${cbtDegreeBadge(p)}
+            ${platformBadge(p)}
+          </div>
+          ${elevator}
+          ${links}
+        </div>
+
+        <div class="ad-section">
+          <h4 class="ad-h4">1 &middot; How CBT is delivered</h4>
+          <div class="ad-cbt-body">${cbtPara}</div>
+        </div>
+
+        <div class="ad-section">
+          <h4 class="ad-h4">2 &middot; Core features</h4>
+          <div class="ds-features" style="border-top:none;padding-top:0;margin-top:0;">${features}</div>
+        </div>
+
+        <div class="ad-section">
+          <h4 class="ad-h4">3 &middot; ${isYes(p.mobile) ? "Interface preview" : "Web interface"}</h4>
+          ${shots}
+        </div>
+      </div>`;
+  }).join("");
+}
+
 // ---------- Modal ----------
 function detailLine(label, val) {
   if (!val || val === "Unknown") return `<div><div class="k">${label}</div><div class="v cell-unknown">Unknown</div></div>`;
@@ -511,11 +657,12 @@ function closeModal() { $("#modal-back").classList.remove("open"); }
 
 function setTab(name) {
   $$(".tabs-inner button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
-  ["dashboard", "catalog", "evidence", "compare", "designs"].forEach(t => {
+  ["dashboard", "catalog", "evidence", "compare", "designs", "all-designs"].forEach(t => {
     const el = $(`#tab-${t}`);
     if (el) el.classList.toggle("hidden", name !== t);
   });
   if (name === "compare") renderCompare();
+  if (name === "all-designs") renderAllDesigns();
 }
 
 function init() {
@@ -547,6 +694,13 @@ function init() {
   const cmpSort = $("#compare-sort");
   if (cmpSort) cmpSort.addEventListener("change", renderCompare);
   if (hlSel)   hlSel.addEventListener("change", renderCompare);
+
+  const adSearch = $("#ad-search");
+  const adCbt = $("#ad-cbt");
+  const adPlatform = $("#ad-platform");
+  if (adSearch) adSearch.addEventListener("input", e => { ALL_DESIGNS_STATE.q = e.target.value; renderAllDesigns(); });
+  if (adCbt) adCbt.addEventListener("change", e => { ALL_DESIGNS_STATE.cbt = e.target.value; renderAllDesigns(); });
+  if (adPlatform) adPlatform.addEventListener("change", e => { ALL_DESIGNS_STATE.platform = e.target.value; renderAllDesigns(); });
 
   refresh();
 }
