@@ -197,5 +197,29 @@ window.PRODUCT_SCREENSHOTS = {
     "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/53/ee/54/53ee54de-a0c8-ee25-d264-e963fca3cdf6/862e39f2-8b24-41fe-813f-37af53002d4e_5.5_inch_Personal_Stories.png/392x696bb.png",
     "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/3b/49/b2/3b49b218-dc5a-a537-9275-fad2d6905b91/6bcafdb8-59c2-4100-b64f-846408145957_5.5_inch_Secure_and_safe.png/392x696bb.png",
     "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/99/ef/6f/99ef6f06-f952-b9da-aef0-6c2c635e0265/c37e8d9a-971c-45cf-982b-1123165f78ab_5.5_inch_Tools.png/392x696bb.png"
+  ],
+  "TDI-048": [
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e7/f1/0a/e7f10abb-ce7d-6e19-89e9-a09e5a7339e4/8a13e7d4-b765-4bcd-9b0f-6df263cab6dd_App_Store_6_U002c5_inch_2-1.jpg/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/55/13/a4/5513a4b2-14ed-c494-a576-ffe5de18573c/97316314-b2c4-4273-b374-4f7a88b42527_App_Store_6_U002c5_inch_2-2.jpg/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/6b/5b/3d6b5bd5-1c82-a19e-23f4-0d3ff8f1925c/540cef4a-1c8f-4296-8efb-63b3e83f79b0_App_Store_6_U002c5_inch_2-3.jpg/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/75/58/14/7558141e-989a-0e26-478c-2f07570dd945/8db0268d-d75b-422c-9406-407305dce82d_App_Store_6_U002c5_inch_2-4.jpg/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/b6/e1/79/b6e17909-af9a-1c3d-8ba0-43f388632d65/fd58ac54-0093-40f3-bd98-ca188e308e43_App_Store_6_U002c5_inch_2-5.jpg/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/93/7c/54/937c54e1-e565-eb24-176d-bb5b4bc26bcf/7a2b9dd6-cb96-456a-8be5-9b29292af249_App_Store_6_U002c5_inch_2.jpg/392x696bb.jpg"
+  ],
+  "TDI-049": [
+    "https://play-lh.googleusercontent.com/qiBwKL_juixsKaYutjNdq86b5gv84pcN0_-C3e1sAx17XQFBCNGOHY26NxpXvqMifD4=w1052-h592-rw",
+    "https://play-lh.googleusercontent.com/evngqDI3MAcXs8n5s3dXj6folsfl6q7g2JfwsN1tnsDncnuKIMkzlpks64BDTfb5bQ=w1052-h592-rw",
+    "https://play-lh.googleusercontent.com/TEDqzVtxF7hxO0obEtaN8BVCIjibaXfTHaOmFuzTAVSrF1KF9nZ8nzQkjL_cjGAPkQ=w1052-h592-rw",
+    "https://play-lh.googleusercontent.com/fvstfG2EnodgUKdYIVT1RWtEMNWVQwjlS0FbZTAb70Tu_oiOoGAH6hUtueaIyPSvz2F_=w1052-h592-rw",
+    "https://play-lh.googleusercontent.com/8ZtlIsGVOvFyRpAurUrvRf_ov2hmP0EWvfhruS37g_LWRfmX0A3-i_MhK1c7vztThYo=w1052-h592-rw",
+    "https://play-lh.googleusercontent.com/z22NenZKcRK1OgVRW9l_pdIivYHHTVBxi8yauDochW5qBbevAmFG6Xt5OxpEbBbYAgU=w1052-h592-rw"
+  ],
+  "TDI-050": [
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/d7/7f/7bd77fe7-de7b-12d9-8654-ae81cd487aeb/1@3x.png/392x696bb.png",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/68/18/fb/6818fb98-e259-cbed-9bf7-1f601ee47cac/2@3x.png/392x696bb.png",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e7/c6/80/e7c680bc-c8d7-430b-580a-74695f515c9a/3@3x.png/392x696bb.png",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/a5/ab/49/a5ab4911-6fae-6c35-80a6-bd0ecd107072/4@3x.png/392x696bb.png",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/fd/85/3c/fd853c00-ee21-78ac-2c81-d25a39fcb314/5@3x.png/392x696bb.png",
+    "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/66/35/29/66352988-7527-d299-2907-0e9cc9ea9c51/6@3x.png/392x696bb.png"
   ]
 };

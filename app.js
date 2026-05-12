@@ -420,7 +420,7 @@ function renderEvidence(list) {
 
 
 // ---------- All Designs tab ----------
-const ALL_DESIGNS_STATE = { q: "", cbt: "", platform: "" };
+const ALL_DESIGNS_STATE = { q: "", cbt: "", platform: "", ai: "", rec: "" };
 
 function buildCbtDeliveryParagraph(p) {
   const degree = (p.cbt_degree || "").trim();
@@ -437,9 +437,43 @@ function buildCbtDeliveryParagraph(p) {
 function parseFeatures(allFeatures) {
   if (!allFeatures || allFeatures === "Unknown") return [];
   // Features are usually semicolon-delimited e.g. "AI chatbot [CBT]; mood tracker; ..."
-  return allFeatures.split(/;\s*/)
-    .map(s => s.trim())
-    .filter(Boolean);
+  // but some records use commas instead. Detect the dominant separator at the top
+  // level (outside parens/brackets) and split on it, preserving commas inside
+  // "(a, b, c)" or "[CBT, ACT]" groupings.
+  let depthP = 0, depthB = 0;
+  let semis = 0, commas = 0;
+  for (let i = 0; i < allFeatures.length; i++) {
+    const ch = allFeatures[i];
+    if (ch === "(") depthP++;
+    else if (ch === ")") depthP = Math.max(0, depthP - 1);
+    else if (ch === "[") depthB++;
+    else if (ch === "]") depthB = Math.max(0, depthB - 1);
+    else if (depthP === 0 && depthB === 0) {
+      if (ch === ";") semis++;
+      else if (ch === ",") commas++;
+    }
+  }
+  const sep = semis > 0 ? ";" : ",";
+  const items = [];
+  let cur = "";
+  depthP = 0; depthB = 0;
+  for (let i = 0; i < allFeatures.length; i++) {
+    const ch = allFeatures[i];
+    if (ch === "(") { depthP++; cur += ch; }
+    else if (ch === ")") { depthP = Math.max(0, depthP - 1); cur += ch; }
+    else if (ch === "[") { depthB++; cur += ch; }
+    else if (ch === "]") { depthB = Math.max(0, depthB - 1); cur += ch; }
+    else if (ch === sep && depthP === 0 && depthB === 0) {
+      const t = cur.trim();
+      if (t) items.push(t);
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  const last = cur.trim();
+  if (last) items.push(last);
+  return items;
 }
 
 function renderFeatureChips(allFeatures) {
@@ -448,9 +482,13 @@ function renderFeatureChips(allFeatures) {
     return '<span style="color:var(--muted);font-size:12px;">No feature data captured.</span>';
   }
   return items.map(f => {
-    const isCbt = /\[CBT[^\]]*\]/i.test(f);
-    const cleaned = f.replace(/\.+$/, "");
-    return `<span class="ds-feature${isCbt ? ' ds-feature-cbt' : ''}">${escapeHTML(cleaned)}</span>`;
+    const cbtMatch = f.match(/\[(CBT[^\]]*)\]/i);
+    const isCbt = !!cbtMatch;
+    const label = f.replace(/\[CBT[^\]]*\]/ig, "").replace(/\.+$/, "").replace(/\s+/g, " ").trim();
+    const tag = isCbt
+      ? `<span class="ds-feature-tag">${escapeHTML(cbtMatch[1])}</span>`
+      : "";
+    return `<span class="ds-feature${isCbt ? ' ds-feature-cbt' : ''}">${escapeHTML(label)}${tag}</span>`;
   }).join("");
 }
 
@@ -506,6 +544,14 @@ function applyAllDesignsFilter(list) {
     if (ALL_DESIGNS_STATE.cbt && cbtDegreeLabel(p) !== ALL_DESIGNS_STATE.cbt) return false;
     if (ALL_DESIGNS_STATE.platform === "mobile" && !isYes(p.mobile)) return false;
     if (ALL_DESIGNS_STATE.platform === "web" && (isYes(p.mobile) || !isYes(p.web))) return false;
+    if (ALL_DESIGNS_STATE.ai || ALL_DESIGNS_STATE.rec) {
+      const cap = ALL_DESIGNS_CAPABILITIES[p.id];
+      if (!cap) return false;
+      if (ALL_DESIGNS_STATE.ai === "yes" && !(cap.ai && cap.ai.has)) return false;
+      if (ALL_DESIGNS_STATE.ai === "no"  &&  (cap.ai && cap.ai.has)) return false;
+      if (ALL_DESIGNS_STATE.rec === "yes" && !(cap.rec && cap.rec.has)) return false;
+      if (ALL_DESIGNS_STATE.rec === "no"  &&  (cap.rec && cap.rec.has)) return false;
+    }
     if (q) {
       const blob = [p.id, p.name, p.vendor, p.country, p.all_features, p.cbt_location, p.cbt_structure, p.elevator_pitch].filter(Boolean).join(" ").toLowerCase();
       if (!blob.includes(q)) return false;
@@ -514,12 +560,95 @@ function applyAllDesignsFilter(list) {
   });
 }
 
+const ALL_DESIGNS_ALLOWED_IDS = new Set([
+  "TDI-001", // Wysa
+  "TDI-002", // SilverCloud
+  "TDI-018", // Untire
+  "TDI-035", // MyPossibleSelf
+  "TDI-037", // WebMAP Mobile
+  "TDI-042", // Maya
+  "TDI-044", // Pathways Pain Relief
+  "TDI-047", // Woebot
+  "TDI-048", // MindDoc
+  "TDI-049", // Mind Booster Green
+  "TDI-050", // Evi AI
+]);
+
+// AI features and recommendation-system capability per product.
+// `ai`   — built-in AI/NLP chatbot or AI-driven personalisation engine.
+// `rec`  — recommends specific CBT modules/exercises based on screening,
+//          conversation, or onboarding info (not just self-selection).
+const ALL_DESIGNS_CAPABILITIES = {
+  "TDI-001": {
+    ai: { has: true,  note: "Penguin AI chatbot — NLP-driven conversational CBT" },
+    rec:{ has: true,  note: "Tool-cards triggered by conversation; AI-personalised CBT exercises" },
+  },
+  "TDI-002": {
+    ai: { has: false, note: "Structured iCBT modules with human coach; no AI engine" },
+    rec:{ has: false, note: "Disorder-specific 'Space from…' programs are clinician/self-selected, not algorithmically recommended" },
+  },
+  "TDI-018": {
+    ai: { has: false, note: "Fixed content pillars; no AI" },
+    rec:{ has: false, note: "Self-paced themes; no screening-driven module routing" },
+  },
+  "TDI-035": {
+    ai: { has: false, note: "No AI engine" },
+    rec:{ has: true,  note: "Intake questionnaire about life challenges recommends which modules to prioritise" },
+  },
+  "TDI-037": {
+    ai: { has: false, note: "Time-gated CBT modules; no AI" },
+    rec:{ has: true,  note: "PHQ-21 and ASWS intake screens trigger supplementary depression / insomnia modules" },
+  },
+  "TDI-042": {
+    ai: { has: false, note: "Fixed 12-session CBT sequence" },
+    rec:{ has: false, note: "Cohort assignment via access code; no personalised routing" },
+  },
+  "TDI-044": {
+    ai: { has: false, note: "No AI engine documented" },
+    rec:{ has: false, note: "4-step sequential program; onboarding personalisation not publicly documented" },
+  },
+  "TDI-047": {
+    ai: { has: true,  note: "NLP-driven conversational CBT chatbot" },
+    rec:{ has: true,  note: "NLP parses free text to tailor responses; WB001 focus-area cards drive module sequencing" },
+  },
+  "TDI-048": {
+    ai: { has: false, note: "No AI / chatbot engine; courses authored by clinical psychologists" },
+    rec:{ has: true,  note: "Three-times-daily check-ins feed a 14-day automated assessment that recommends which CBT courses to take" },
+  },
+  "TDI-049": {
+    ai: { has: false, note: "No AI engine; structured CBT slides authored by Yonsei research team" },
+    rec:{ has: false, note: "Tailored case stories are pre-authored for college students; no per-user screening drives module selection" },
+  },
+  "TDI-050": {
+    ai: { has: true,  note: "AI generates personalised video podcasts and stories from user prompts" },
+    rec:{ has: true,  note: "Prompt-driven AI recommends and generates wellness content (not a CBT module recommender — general wellness only)" },
+  },
+};
+
+function capabilityBadges(p) {
+  const cap = ALL_DESIGNS_CAPABILITIES[p.id];
+  if (!cap) return "";
+  const parts = [];
+  if (cap.ai && cap.ai.has) {
+    parts.push(`<span class="ds-badge cap cap-ai" title="${escapeHTML(cap.ai.note)}">AI</span>`);
+  } else if (cap.ai) {
+    parts.push(`<span class="ds-badge cap cap-off" title="${escapeHTML(cap.ai.note)}">No AI</span>`);
+  }
+  if (cap.rec && cap.rec.has) {
+    parts.push(`<span class="ds-badge cap cap-rec" title="${escapeHTML(cap.rec.note)}">Recommends CBT modules</span>`);
+  } else if (cap.rec) {
+    parts.push(`<span class="ds-badge cap cap-off" title="${escapeHTML(cap.rec.note)}">No module recommender</span>`);
+  }
+  return parts.join("");
+}
+
 function renderAllDesigns() {
   const container = $("#all-designs-container");
   if (!container) return;
-  const list = applyAllDesignsFilter(PRODUCTS.slice().sort((a,b) => a.id.localeCompare(b.id)));
+  const featured = PRODUCTS.filter(p => ALL_DESIGNS_ALLOWED_IDS.has(p.id));
+  const list = applyAllDesignsFilter(featured.slice().sort((a,b) => a.id.localeCompare(b.id)));
   const countEl = $("#ad-count");
-  if (countEl) countEl.textContent = `${list.length} of ${PRODUCTS.length} products`;
+  if (countEl) countEl.textContent = `${list.length} of ${featured.length} products`;
   container.innerHTML = list.map(p => {
     const country = (p.country || "").split("/")[0].trim();
     const degree = cbtDegreeLabel(p);
@@ -541,6 +670,7 @@ function renderAllDesigns() {
           <div class="ds-badges">
             ${cbtDegreeBadge(p)}
             ${platformBadge(p)}
+            ${capabilityBadges(p)}
           </div>
           ${elevator}
           ${links}
@@ -657,7 +787,7 @@ function closeModal() { $("#modal-back").classList.remove("open"); }
 
 function setTab(name) {
   $$(".tabs-inner button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
-  ["dashboard", "catalog", "evidence", "compare", "designs", "all-designs"].forEach(t => {
+  ["dashboard", "catalog", "evidence", "compare", "all-designs"].forEach(t => {
     const el = $(`#tab-${t}`);
     if (el) el.classList.toggle("hidden", name !== t);
   });
@@ -698,10 +828,88 @@ function init() {
   const adSearch = $("#ad-search");
   const adCbt = $("#ad-cbt");
   const adPlatform = $("#ad-platform");
-  if (adSearch) adSearch.addEventListener("input", e => { ALL_DESIGNS_STATE.q = e.target.value; renderAllDesigns(); });
-  if (adCbt) adCbt.addEventListener("change", e => { ALL_DESIGNS_STATE.cbt = e.target.value; renderAllDesigns(); });
-  if (adPlatform) adPlatform.addEventListener("change", e => { ALL_DESIGNS_STATE.platform = e.target.value; renderAllDesigns(); });
+  const adAiToggle = $("#ad-ai-toggle");
+  const adRecToggle = $("#ad-rec-toggle");
+  const after = () => { renderAllDesigns(); };
+  if (adSearch) adSearch.addEventListener("input", e => { ALL_DESIGNS_STATE.q = e.target.value; after(); });
+  if (adCbt) adCbt.addEventListener("change", e => { ALL_DESIGNS_STATE.cbt = e.target.value; after(); });
+  if (adPlatform) adPlatform.addEventListener("change", e => { ALL_DESIGNS_STATE.platform = e.target.value; after(); });
+  const bindToggle = (btn, key) => {
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const next = ALL_DESIGNS_STATE[key] === "yes" ? "" : "yes";
+      ALL_DESIGNS_STATE[key] = next;
+      btn.setAttribute("aria-pressed", next === "yes" ? "true" : "false");
+      after();
+    });
+  };
+  bindToggle(adAiToggle, "ai");
+  bindToggle(adRecToggle, "rec");
 
   refresh();
+}
+
+function activeFilterCount() {
+  let n = 0;
+  if (ALL_DESIGNS_STATE.q && ALL_DESIGNS_STATE.q.trim()) n++;
+  if (ALL_DESIGNS_STATE.cbt) n++;
+  if (ALL_DESIGNS_STATE.platform) n++;
+  if (ALL_DESIGNS_STATE.ai) n++;
+  if (ALL_DESIGNS_STATE.rec) n++;
+  return n;
+}
+
+function updateFilterBadge() {
+  const badge = $("#filter-count-badge");
+  if (!badge) return;
+  const n = activeFilterCount();
+  if (n > 0) { badge.textContent = String(n); badge.hidden = false; }
+  else { badge.hidden = true; }
+}
+
+function initFilterPopover() {
+  const btn = $("#filter-toggle");
+  const pop = $("#filter-popover");
+  const clearBtn = $("#filter-clear");
+  const doneBtn = $("#filter-close");
+  if (!btn || !pop) return;
+
+  const setOpen = (open) => {
+    pop.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    setOpen(pop.hidden);
+  });
+
+  // Click outside closes
+  document.addEventListener("click", e => {
+    if (pop.hidden) return;
+    if (pop.contains(e.target) || btn.contains(e.target)) return;
+    setOpen(false);
+  });
+
+  // Esc closes
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !pop.hidden) setOpen(false);
+  });
+
+  if (doneBtn) doneBtn.addEventListener("click", () => setOpen(false));
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      ALL_DESIGNS_STATE.q = "";
+      ALL_DESIGNS_STATE.cbt = "";
+      ALL_DESIGNS_STATE.platform = "";
+      ALL_DESIGNS_STATE.ai = "";
+      ALL_DESIGNS_STATE.rec = "";
+      const fields = ["#ad-search", "#ad-cbt", "#ad-platform", "#ad-ai", "#ad-rec"];
+      fields.forEach(sel => { const el = $(sel); if (el) el.value = ""; });
+      renderAllDesigns();
+      updateFilterBadge();
+    });
+  }
 }
 document.addEventListener("DOMContentLoaded", init);
